@@ -224,6 +224,13 @@ svg{ width:1em; height:1em; display:inline-block; vertical-align:-0.125em; flex-
 
 .pla-covertype-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px; }
 @media (max-width:560px){ .pla-covertype-row{ grid-template-columns:1fr; } }
+
+.pla-chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+.pla-chip{ padding:7px 15px; border-radius:999px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-size:12.5px; font-weight:650; cursor:pointer; transition:.15s; user-select:none; }
+.pla-chip:hover{ border-color:var(--text-faint); }
+.pla-chip.selected{ background:var(--green); border-color:var(--green); color:#fff; box-shadow:var(--shadow-sm); }
+.pla-country-turnover-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px; }
+@media (max-width:560px){ .pla-country-turnover-grid{ grid-template-columns:1fr; } }
 .pla-covertype-opt{ display:flex; align-items:center; gap:10px; padding:14px 16px; border:1.5px solid var(--border); border-radius:12px; background:var(--surface); cursor:pointer; font-size:14px; font-weight:650; color:var(--text); transition:.15s; }
 .pla-covertype-opt:hover{ border-color:var(--text-faint); }
 .pla-covertype-opt.selected{ border-color:var(--green); background:var(--green-light); box-shadow:0 0 0 1px var(--green); }
@@ -415,7 +422,9 @@ function icon(name, cls){
 
 var OCCUPANCY_OPTIONS = ['Office - Building Location','Office - Warehouse Location','Clinics','Restaurant - Alcohol, Shisha, BBQ','Retail Shop (Excludes Jewelry)','Salon/Barbershop','Warehouse - Direct Referral','Educational Centers','Kiosk (Indoor)','Kiosk (Outdoor)','Others'];
 var NATURE_OF_BUSINESS_OPTIONS = ['General Trading','Electronics Trading','Building Materials Trading','Chemicals & Solvents Trading','Food Commodities Trading','Furniture Trading','Medical Equipment Trading','Textile & Garments Trading','Auto Parts Trading','Machinery & Equipment Trading','Jewellery & Precious Metals Trading','Agricultural Products Trading','Cosmetics & Perfumes Trading','Office Supplies Trading','Industrial Equipment Trading','Supermarket / Hypermarket','Fashion & Clothing Store','Electronics & Gadgets Retail','Online Retail / E-Commerce Platform','Pharmacy & Drug Store','Jewellery Store','Toy Store','Sporting Goods Store','Home Appliances Store','Furniture Showroom','Bookstore & Stationery','Perfume & Cosmetics Store','Mobile Phone Retail','Convenience Store','Specialty Food Retail','Restaurant','Café & Coffee Shop','Fast Food Outlet','Food Delivery Service','Catering Company','Bakery & Confectionery','Cloud Kitchen','Food Manufacturing','Food Import & Distribution','Snack & Beverage Production','Juice Bar','Dessert Shop','Food Truck','Meat Processing','Dairy Products','5-Star Hotel','4-Star Hotel','3-Star / Budget Hotel','Hotel Apartment','Serviced Apartment','Holiday Home (Short-Term Rental)','Hostel / Backpacker','Resort & Beach Club','Guest House','Motel','Furnished Apartments','Boutique Hotel','Heritage Hotel','Staff Accommodation','Holiday Home Management Company','Real Estate Developer','Property Management Company','Real Estate Brokerage','Facility Management – Residential','Strata Management','Co-Working Space Operator','Property Valuation Firm','Real Estate Investment Trust (REIT)','Warehouse / Storage Leasing','Commercial Property Leasing','Mixed-Use Development','Community Management','Short-Term Rental Management','Real Estate Consultancy','Property Maintenance Services','Civil & Structural Contractor','MEP Contractor (Mechanical, Electrical, Plumbing)','Interior Fit-Out Contractor','Roads & Infrastructure Contractor','Demolition & Site Clearing','Piling & Foundation Contractor','Waterproofing & Insulation Contractor','Steel Fabrication & Erection','Glass & Aluminium Works','Landscaping Contractor','Swimming Pool Contractor','Flooring & Tiling Contractor','Painting & Decorating Contractor','Scaffolding & Formwork','Fire Protection Systems Contractor','Structural Engineering Consultancy','MEP Engineering Consultancy','Geotechnical Engineering','Environmental Engineering','Electrical Engineering Services','HVAC Engineering','Fire Safety Engineering','Elevator & Escalator Maintenance','Technical Inspection Services','Testing & Commissioning','Surveying & Mapping','Project Management Consultancy','Cost Consultancy / Quantity Surveying','BIM & Digital Engineering','Renewable Energy Engineering','General Hospital','Specialist Clinic','Dental Clinic','Optical Clinic','Physiotherapy Center','Diagnostic Laboratory','Radiology Center','Pharmacy','Home Healthcare Services','Aesthetic & Cosmetic Clinic','Fertility Clinic','Psychiatric & Mental Health Clinic','Ambulance Services','Medical Equipment Supplier','Wellness & Preventive Health Center','Private School (K-12)','Nursery & Early Childhood','University / Higher Education','Vocational & Technical Training','Corporate Training Provider','Language Institute','Tutoring & Coaching Center','STEM Education Provider','Sports Academy','Arts & Music School','Online Learning Platform','Professional Certification Body','Driving School','Aviation Training','Special Needs Education Center','Commercial Bank','Investment Bank','Exchange & Remittance','Insurance Brokerage','Asset Management Company','Investment Advisory','Financial Planning Firm','Audit & Accounting Firm','Venture Capital / Private Equity','Mortgage Brokerage','Payment & FinTech Company','Microfinance Institution','Crowdfunding Platform','Commodity Brokerage','Wealth Management','Law Firm / Legal Consultancy','Corporate Secretary Services','Taxation & VAT Consultancy','Business Setup Consultancy','Management Consultancy','HR & Recruitment Consultancy','Public Relations (PR) Agency','Strategy Consultancy','Regulatory & Compliance Consultancy','Immigration Consultancy','Trademark & IP Firm','Arbitration & Dispute Resolution','Notary Services','CSR Consultancy','Risk & Governance Consultancy','Software Development Company','IT Consultancy','Cybersecurity Firm','Cloud Services Provider','Data Analytics & AI Company','Telecom Operator','IT Infrastructure & Networking','Mobile App Development','E-Commerce Platform Development','ERP Implementation','Managed IT Services (MSP)','IoT Solutions','Blockchain & Web3 Company','Digital Transformation Consultancy','IT Hardware Reseller','Advertising Agency','Digital Marketing Agency','PR & Communications Agency','Event Management Company','Film & TV Production','Photography Studio','Social Media Agency','Content Creation Studio','Brand Consultancy','Exhibition & Trade Show Organiser','Music & Entertainment','Publishing House','Market Research Firm','Outdoor Advertising','Influencer Marketing Agency','Freight Forwarding','Customs Clearance Agent','Courier & Last-Mile Delivery','Third-Party Logistics (3PL)','Warehousing & Distribution','Cold Chain Logistics','Sea Freight Operator','Air Freight Operator','Road Haulage & Trucking','Project Cargo & Heavy Lift','Supply Chain Consultancy','E-Fulfillment Center','Reverse Logistics','Port & Terminal Operations','Packing & Moving Services','Metal Fabrication & Steel Works','Plastic & Rubber Manufacturing','Chemical Manufacturing','Food & Beverage Production','Pharmaceutical Manufacturing','Textile & Garment Manufacturing','Wood & Furniture Manufacturing','Paper & Packaging Manufacturing','Electronics Manufacturing','Construction Materials Manufacturing','Glass Manufacturing','Paint & Coatings Manufacturing','Printing & Packaging','Consumer Goods Manufacturing','Industrial Equipment Manufacturing','Oil Exploration & Production','Gas Processing & Distribution','Petroleum Refinery','Oilfield Services','Pipeline & Storage','LNG / LPG Distribution','Renewable Energy (Solar, Wind)','Energy Trading','Power Generation & Utilities','Energy Engineering & EPC','Petro-chemicals','Fuel Retail & Distribution','Energy Consultancy','Carbon Credits & Sustainability','Offshore Operations','Ship Owner & Operator','Ship Management Company','Marine Contracting & Diving','Port & Terminal Operator','Vessel Chartering & Brokerage','Marine Engineering','Boat & Yacht Sales','Fishing & Aquaculture','Offshore Supply Vessel (OSV) Operator','Marine Surveyors','Dredging & Reclamation','Marine Fuel Supply','Towage & Salvage','Marine Logistics','Dry Dock & Shipyard','Commercial Airline','Charter & Private Aviation','Cargo Airline','MRO (Maintenance, Repair & Overhaul)','Ground Handling Services','Aviation Training Academy','Aerospace Manufacturing','Airport Operations','Air Traffic Management','Unmanned Aerial Systems (Drones)','Aviation Consultancy','Aircraft Leasing','FBO (Fixed-Base Operator)','Helipad & Heliport Services','Avionics & Systems','Crop Farming & Horticulture','Livestock Farming','Poultry & Eggs Production','Aquaculture & Fish Farming','Organic Farming','Greenhouse Farming','Food Processing Plant','Meat Processing & Packing','Dairy Processing','Flour Milling','Edible Oil Processing','Spice & Condiment Production','Snack Food Production','Agri-Tech & Smart Farming','Agricultural Consultancy','Travel Agency (Outbound)','Travel Agency (Inbound / DMC)','Tour Operator','Visa & Documentation Services','Adventure Tourism','Cultural Tourism','Medical Tourism Facilitator','Online Travel Agency (OTA)','Cruise Services','Heritage & Museum Tourism','Desert & Safari Tourism','City Tours & Sightseeing','MICE (Meetings, Incentives, Conferences, Events)','Airline GSA / Representation','Tourism Consultancy','Salon & Barbershop','Spa & Massage Center','Beauty Clinic (Non-Medical)','Nail & Lash Studio','Tattoo & Body Art Studio','Wellness & Meditation Center','Yoga & Pilates Studio','Fitness & Gym','Slimming & Weight Management Center','Makeup Artist (Freelance/Studio)','Aesthetic Training Institute',"Men's Grooming Lounge",'Tanning & Solarium','Hair Transplant Clinic (Medical)','Holistic Health Center','Integrated Facility Management (IFM)','Cleaning & Janitorial Services','Pest Control','Waste Management & Recycling','Security & Guarding Services','Parking Management','Elevator Maintenance','HVAC Maintenance','Soft Services (Landscaping, Reception)','Hard Services (MEP Maintenance)','Property Maintenance','Pool & Water Feature Maintenance','Fire & Safety Systems Maintenance','Laundry & Linen Services','Concierge Services','Federal Government Entity','Emirate Government Department','Government-Linked Company (GLC)','Free Zone Authority','Municipality','Public Utility (Water, Electricity)','Government Investment Arm / SWF','Regulatory Authority','Public Transport Operator','Government Hospital / Health Authority','Government School / University','Cultural & Heritage Authority','Sports & Recreation Authority','Environment Agency','Port Authority','Charity & Humanitarian Organisation','Trade Association','Professional Association','Sports Club','Religious Organisation','Cultural Association','Foundation & Grant-Making Body','Community Development Association','Research & Think Tank','Advocacy & Lobbying Group','Animal Welfare Organisation','Youth Development Organisation','Environmental NGO','Alumni Association','Industry Regulatory Body','New Car Dealership','Used Car Dealership','Auto Service & Repair Workshop','Car Rental Company','Tyre & Accessories Shop','Car Wash & Detailing','Auto Parts Trading & Distribution','Fleet Management Services','Speciality Vehicle Manufacturer / Modifier','EV Charging Infrastructure','Motorcycle Sales & Repair','Commercial Vehicle Dealership','Auto Finance','Classic Car Restoration','Driving School (Vehicles)'];
-var GEOGRAPHICAL_LIMITS = ['UAE','GCC','Worldwide excl. US and Canada','Worldwide inc. US & Canada'];
+var GEOGRAPHICAL_LIMITS = ['UAE','GCC','US & Canada','Other countries'];
+var GCC_COUNTRIES = ['UAE','Saudi Arabia','Kuwait','Qatar','Bahrain','Oman'];
+var US_CANADA_COUNTRIES = ['United States','Canada'];
 var PROJECT_DURATION_OPTIONS = ['Less than 3 months','3 to 6 months','6 to 12 months','1 to 2 years','2 to 5 years','More than 5 years'];
 var CONSTRUCTION_CONTRACTING_ACTIVITIES = ['Civil & Structural Contractor','MEP Contractor (Mechanical, Electrical, Plumbing)','Interior Fit-Out Contractor','Roads & Infrastructure Contractor','Demolition & Site Clearing','Piling & Foundation Contractor','Waterproofing & Insulation Contractor','Steel Fabrication & Erection','Glass & Aluminium Works','Landscaping Contractor','Swimming Pool Contractor','Flooring & Tiling Contractor','Painting & Decorating Contractor','Scaffolding & Formwork','Fire Protection Systems Contractor','Structural Engineering Consultancy','MEP Engineering Consultancy','Geotechnical Engineering','Environmental Engineering','Electrical Engineering Services','HVAC Engineering','Fire Safety Engineering','Technical Inspection Services','Testing & Commissioning','Surveying & Mapping','Project Management Consultancy','Cost Consultancy / Quantity Surveying','BIM & Digital Engineering','Renewable Energy Engineering'];
 var MANUFACTURING_PRODUCTION_ACTIVITIES = ['Food Manufacturing','Snack & Beverage Production','Metal Fabrication & Steel Works','Plastic & Rubber Manufacturing','Chemical Manufacturing','Food & Beverage Production','Pharmaceutical Manufacturing','Textile & Garment Manufacturing','Wood & Furniture Manufacturing','Paper & Packaging Manufacturing','Electronics Manufacturing','Construction Materials Manufacturing','Glass Manufacturing','Paint & Coatings Manufacturing','Printing & Packaging','Consumer Goods Manufacturing','Industrial Equipment Manufacturing','Food Processing Plant','Meat Processing & Packing','Dairy Processing','Flour Milling','Edible Oil Processing','Spice & Condiment Production','Snack Food Production'];
@@ -440,6 +449,7 @@ function createEmptyLocation(id){
 }
 function createEmptyOffsiteEntry(id){
   return { id:id, coverType:'annual', location:'', limitOfIndemnity:'', geographicalLimit:'UAE', manualWorkEmployees:'no', annualTurnover:'', turnoverSplitDetails:'', estimatedProjects:'', numberOfEmployees:'', subcontractedWork:'no', subcontractedServices:'', subcontractedPercentage:'',
+    gccCountries:[], gccTurnoverByCountry:{}, usCanadaCountries:[], usCanadaTurnoverByCountry:{},
     projectTitle:'', projectContractValue:'', projectLiabilityLimit:'', projectDuration:'', projectLocation:'', projectScopeOfWork:'' };
 }
 function createEmptyApplication(){
@@ -521,6 +531,19 @@ function computeStepErrors(step){
           if(!(o.limitOfIndemnity||'').trim()) errs['offsite_'+idx+'_limit']='Off-site location limit of indemnity is required for Entry #'+(idx+1)+'.';
           if(!o.estimatedProjects) errs['offsite_'+idx+'_projects']='Estimated projects count is required for Entry #'+(idx+1)+'.';
           if(!o.numberOfEmployees) errs['offsite_'+idx+'_employees']='Number of employees is required for Entry #'+(idx+1)+'.';
+          if(o.geographicalLimit==='UAE'){
+            if(!(o.annualTurnover||'').trim()) errs['offsite_'+idx+'_turnover']='Annual turnover is required for Entry #'+(idx+1)+'.';
+          } else if(o.geographicalLimit==='GCC'){
+            if((o.gccCountries||[]).length===0) errs['offsite_'+idx+'_gcc_countries']='Select at least one GCC country for Entry #'+(idx+1)+'.';
+            (o.gccCountries||[]).forEach(function(country){
+              if(!((o.gccTurnoverByCountry||{})[country]||'').trim()) errs['offsite_'+idx+'_gccturnover_'+country]=country+' annual turnover is required for Entry #'+(idx+1)+'.';
+            });
+          } else if(o.geographicalLimit==='US & Canada'){
+            if((o.usCanadaCountries||[]).length===0) errs['offsite_'+idx+'_usca_countries']='Select US and/or Canada for Entry #'+(idx+1)+'.';
+            (o.usCanadaCountries||[]).forEach(function(country){
+              if(!((o.usCanadaTurnoverByCountry||{})[country]||'').trim()) errs['offsite_'+idx+'_uscaturnover_'+country]=country+' annual turnover is required for Entry #'+(idx+1)+'.';
+            });
+          }
         }
       });
     }
@@ -579,6 +602,19 @@ App.setOffsiteEntryField = function(idx, key, val){ state.appState.offsiteOperat
 App.setOffsiteEntryFieldRerender = function(idx, key, val){ App.setOffsiteEntryField(idx,key,val); renderMain(); };
 App.setOffsiteEntryMoney = function(idx, key, raw){ state.appState.offsiteOperations.entries[idx][key]=fmtMoney(raw); saveDraft(true); renderMain(); };
 App.setOffsiteEntryCoverType = function(idx, val){ state.appState.offsiteOperations.entries[idx].coverType=val; saveDraft(true); renderMain(); };
+App.toggleOffsiteEntryCountry = function(idx, field, country){
+  var entry = state.appState.offsiteOperations.entries[idx];
+  var list = entry[field];
+  var pos = list.indexOf(country);
+  if(pos===-1) list.push(country); else list.splice(pos,1);
+  saveDraft(true);
+  renderMain();
+};
+App.setOffsiteEntryCountryTurnover = function(idx, field, country, raw){
+  state.appState.offsiteOperations.entries[idx][field][country] = fmtMoney(raw);
+  saveDraft(true);
+  renderMain();
+};
 App.toggleProjectDetails = function(idx){
   state._collapsedProjectPanels = state._collapsedProjectPanels || {};
   state._collapsedProjectPanels[idx] = !state._collapsedProjectPanels[idx];
@@ -716,7 +752,7 @@ App.loadDemoData = function(){
       { id:'2', address:'Warehouse B2, Mussafah M-12, Abu Dhabi, UAE', limitOfIndemnity:'2,500,000', occupancy:'Warehouse - Direct Referral', claimsHistoryLast5Years:'yes', claimsDetails:'Oct 2023: Minor structural water leakage damaged client pallets. Settled amicably with underwriter for AED 32,000. Comprehensive roof seal completed Nov 2023.' }
     ],
     offsiteOperations:{ coverRequired:'yes', entries:[
-      { id:'1', coverType:'annual', location:'Contracted client depots across UAE and GCC states', limitOfIndemnity:'5,000,000', geographicalLimit:'GCC', manualWorkEmployees:'yes', annualTurnover:'12,500,000', turnoverSplitDetails:'UAE: AED 10,000,000 | Saudi Arabia: AED 2,000,000 | Oman: AED 500,000', estimatedProjects:'14', numberOfEmployees:'38', subcontractedWork:'yes', subcontractedServices:'Specialized cargo forklift rigging & electrical safety retrofits', subcontractedPercentage:'25', projectTitle:'', projectContractValue:'', projectLiabilityLimit:'', projectDuration:'', projectLocation:'', projectScopeOfWork:'' },
+      { id:'1', coverType:'annual', location:'Contracted client depots across UAE and GCC states', limitOfIndemnity:'5,000,000', geographicalLimit:'GCC', manualWorkEmployees:'yes', annualTurnover:'', turnoverSplitDetails:'', estimatedProjects:'14', numberOfEmployees:'38', subcontractedWork:'yes', subcontractedServices:'Specialized cargo forklift rigging & electrical safety retrofits', subcontractedPercentage:'25', gccCountries:['UAE','Saudi Arabia','Oman'], gccTurnoverByCountry:{'UAE':'10,000,000','Saudi Arabia':'2,000,000','Oman':'500,000'}, usCanadaCountries:[], usCanadaTurnoverByCountry:{}, projectTitle:'', projectContractValue:'', projectLiabilityLimit:'', projectDuration:'', projectLocation:'', projectScopeOfWork:'' },
       { id:'2', coverType:'project', location:'', limitOfIndemnity:'', geographicalLimit:'UAE', manualWorkEmployees:'yes', annualTurnover:'', turnoverSplitDetails:'', estimatedProjects:'', numberOfEmployees:'', subcontractedWork:'no', subcontractedServices:'', subcontractedPercentage:'', projectTitle:'Dubai South Logistics Hub Fit-Out', projectContractValue:'2,000,000', projectLiabilityLimit:'2,000,000', projectDuration:'6 to 12 months', projectLocation:'Dubai South, UAE', projectScopeOfWork:'Warehouse racking installation, forklift rigging, and electrical safety retrofit works under a single fixed-term client contract.' }
     ] },
     extensions:{ propertyBeingWorkedUpon:true, propertyUnderCareCustodyControl:true, principalsExistingProperty:false },
@@ -817,6 +853,21 @@ function renderStepLocations(){
   cards + addBtn;
 }
 
+function renderCountryTurnoverBlock(o, idx, field, turnoverField, countries, errKeyPrefix){
+  var selected = o[field] || [];
+  var chips = countries.map(function(c){
+    var sel = selected.indexOf(c)!==-1;
+    return '<div class="pla-chip'+(sel?' selected':'')+'" onclick="App.toggleOffsiteEntryCountry('+idx+', \''+field+'\', \''+esc(c)+'\')">'+esc(c)+'</div>';
+  }).join('');
+  var turnoverInputs = selected.map(function(c){
+    var errKey = errKeyPrefix+'_'+c;
+    var val = (o[turnoverField]||{})[c] || '';
+    return '<div class="pla-field"><label class="pla-label">'+esc(c)+' Annual Turnover <span class="pla-req">*</span></label>'+
+      '<div class="pla-currency"><span>AED</span><input class="pla-input '+errClass(errKey)+'" type="text" placeholder="e.g. 5,000,000" value="'+esc(val)+'" oninput="App.setOffsiteEntryCountryTurnover('+idx+', \''+turnoverField+'\', \''+esc(c)+'\', this.value)"></div>'+fieldError(errKey)+'</div>';
+  }).join('');
+  return '<div class="pla-chip-row">'+chips+'</div>' + (turnoverInputs ? '<div class="pla-country-turnover-grid">'+turnoverInputs+'</div>' : '');
+}
+
 function renderOffsiteEntryCard(o, idx, total){
   var coverTypeRow = '<div class="pla-covertype-row">' +
     '<label class="pla-covertype-opt'+(o.coverType==='annual'?' selected':'')+'"><input type="radio" name="covertype-'+idx+'" '+(o.coverType==='annual'?'checked':'')+' onchange="App.setOffsiteEntryCoverType('+idx+', \'annual\')"> Annual Cover</label>'+
@@ -855,10 +906,24 @@ function renderOffsiteEntryCard(o, idx, total){
   }
 
   var geoOpts = GEOGRAPHICAL_LIMITS.map(function(g){ return '<option value="'+esc(g)+'" '+(o.geographicalLimit===g?'selected':'')+'>'+esc(g)+'</option>'; }).join('');
-  var splitField = o.geographicalLimit && o.geographicalLimit!=='UAE' ? (
-    '<div class="pla-field span2"><label class="pla-label">Annual Turnover Split per Country <span class="pla-hint" style="text-transform:none;">(Optional)</span></label>'+
-    '<textarea class="pla-textarea" rows="2" placeholder="e.g. UAE: AED 3,000,000 | Saudi Arabia: AED 1,500,000 | Oman: AED 500,000" oninput="App.setOffsiteEntryField('+idx+', \'turnoverSplitDetails\', this.value)">'+esc(o.turnoverSplitDetails||'')+'</textarea></div>'
-  ) : '';
+
+  var turnoverSection;
+  if(o.geographicalLimit==='GCC'){
+    turnoverSection = '<div class="pla-field span2"><label class="pla-label">Select GCC Countries <span class="pla-req">*</span></label>'+
+      (state.errors['offsite_'+idx+'_gcc_countries'] ? '<p class="pla-err-msg">'+esc(state.errors['offsite_'+idx+'_gcc_countries'])+'</p>' : '')+
+      renderCountryTurnoverBlock(o, idx, 'gccCountries', 'gccTurnoverByCountry', GCC_COUNTRIES, 'offsite_'+idx+'_gccturnover') + '</div>';
+  } else if(o.geographicalLimit==='US & Canada'){
+    turnoverSection = '<div class="pla-field span2"><label class="pla-label">Select Countries <span class="pla-req">*</span></label>'+
+      (state.errors['offsite_'+idx+'_usca_countries'] ? '<p class="pla-err-msg">'+esc(state.errors['offsite_'+idx+'_usca_countries'])+'</p>' : '')+
+      renderCountryTurnoverBlock(o, idx, 'usCanadaCountries', 'usCanadaTurnoverByCountry', US_CANADA_COUNTRIES, 'offsite_'+idx+'_uscaturnover') + '</div>';
+  } else if(o.geographicalLimit==='Other countries'){
+    turnoverSection = '<div class="pla-field span2"><label class="pla-label">Annual Turnover Split per Country <span class="pla-hint" style="text-transform:none;">(Optional)</span></label>'+
+      '<textarea class="pla-textarea" rows="2" placeholder="e.g. UAE: AED 3,000,000 | Egypt: AED 1,500,000 | India: AED 500,000" oninput="App.setOffsiteEntryField('+idx+', \'turnoverSplitDetails\', this.value)">'+esc(o.turnoverSplitDetails||'')+'</textarea></div>';
+  } else {
+    turnoverSection = '<div class="pla-field"><label class="pla-label">Annual Turnover <span class="pla-req">*</span></label>'+
+      '<div class="pla-currency"><span>AED</span><input class="pla-input '+errClass('offsite_'+idx+'_turnover')+'" type="text" placeholder="Estimated yearly sales / revenue" value="'+esc(o.annualTurnover||'')+'" oninput="App.setOffsiteEntryMoney('+idx+', \'annualTurnover\', this.value)"></div>'+fieldError('offsite_'+idx+'_turnover')+'</div>';
+  }
+
   var subDetails = o.subcontractedWork==='yes' ? (
     '<div class="pla-field span2" style="background:var(--surface);border:1px solid var(--border-soft);border-radius:12px;padding:14px;margin-top:6px;">'+
     '<div class="pla-grid2">'+
@@ -883,9 +948,7 @@ function renderOffsiteEntryCard(o, idx, total){
       '<label class="pla-radio"><input type="radio" name="manualWork-'+idx+'" '+(o.manualWorkEmployees==='no'?'checked':'')+' onchange="App.setOffsiteEntryFieldRerender('+idx+', \'manualWorkEmployees\', \'no\')"> No</label>'+
       '<label class="pla-radio"><input type="radio" name="manualWork-'+idx+'" '+(o.manualWorkEmployees==='yes'?'checked':'')+' onchange="App.setOffsiteEntryFieldRerender('+idx+', \'manualWorkEmployees\', \'yes\')"> Yes</label>'+
       '</div>'+ (o.manualWorkEmployees==='yes' ? '<p class="pla-hint" style="color:var(--green);">Note: Premium will adjust for manual risk exposures such as heights, tools, or machinery.</p>' : '') + '</div>'+
-    '<div class="pla-field"><label class="pla-label">Annual Turnover <span class="pla-hint" style="text-transform:none;">(Optional)</span></label>'+
-      '<div class="pla-currency"><span>AED</span><input class="pla-input" type="text" placeholder="Estimated yearly sales / revenue" value="'+esc(o.annualTurnover||'')+'" oninput="App.setOffsiteEntryMoney('+idx+', \'annualTurnover\', this.value)"></div></div>'+
-    splitField +
+    turnoverSection +
     '<div class="pla-field"><label class="pla-label">Estimated Number of Projects / Contracts <span class="pla-req">*</span></label>'+
       '<input class="pla-input '+errClass('offsite_'+idx+'_projects')+'" type="number" min="0" placeholder="e.g. 15" value="'+esc(o.estimatedProjects||'')+'" oninput="App.setOffsiteEntryField('+idx+', \'estimatedProjects\', this.value)">'+fieldError('offsite_'+idx+'_projects')+'</div>'+
     '<div class="pla-field"><label class="pla-label">'+icon('users')+'Total Number of Employees <span class="pla-req">*</span></label>'+
@@ -982,13 +1045,24 @@ function renderOffsiteEntrySummary(o, idx){
       '<div class="pla-kv" style="grid-column:1/-1;"><label>Exact Scope of Work</label><div style="font-weight:500;white-space:pre-line;">'+esc(o.projectScopeOfWork||'Not filled')+'</div></div>'+
       '</div></div>';
   }
+  var turnoverKv;
+  if(o.geographicalLimit==='GCC'){
+    var gccList = (o.gccCountries||[]).map(function(c){ return c+': '+((o.gccTurnoverByCountry||{})[c]||'Not filled')+' AED'; }).join(' | ');
+    turnoverKv = '<div class="pla-kv" style="grid-column:1/-1;"><label>Annual Turnover by GCC Country</label><div style="font-weight:500;">'+esc(gccList||'Not specified')+'</div></div>';
+  } else if(o.geographicalLimit==='US & Canada'){
+    var uscaList = (o.usCanadaCountries||[]).map(function(c){ return c+': '+((o.usCanadaTurnoverByCountry||{})[c]||'Not filled')+' AED'; }).join(' | ');
+    turnoverKv = '<div class="pla-kv" style="grid-column:1/-1;"><label>Annual Turnover by Country</label><div style="font-weight:500;">'+esc(uscaList||'Not specified')+'</div></div>';
+  } else if(o.geographicalLimit==='Other countries'){
+    turnoverKv = '<div class="pla-kv" style="grid-column:1/-1;"><label>Annual Turnover Split per Country</label><div style="font-weight:500;">'+esc(o.turnoverSplitDetails||'Not specified')+'</div></div>';
+  } else {
+    turnoverKv = '<div class="pla-kv"><label>Annual Turnover</label><div>'+(o.annualTurnover?esc(o.annualTurnover)+' AED':'Not specified')+'</div></div>';
+  }
   return '<div class="pla-rev-loc"><div class="pla-panel-row" style="margin-bottom:8px;"><span style="font-size:11px;font-weight:750;color:var(--green);text-transform:uppercase;">Off-site Entry #'+(idx+1)+'</span>'+badge+'</div>'+
     '<div class="pla-rev-body" style="padding:0;">'+
     '<div class="pla-kv" style="grid-column:1/-1;"><label>Scope Area</label><div>'+esc(o.location||'Not filled')+'</div></div>'+
     '<div class="pla-kv"><label>Off-site Location Limit</label><div style="color:var(--blue);">'+(o.limitOfIndemnity?esc(o.limitOfIndemnity)+' AED':'Not filled')+'</div></div>'+
     '<div class="pla-kv"><label>Geographical Limit</label><div>'+esc(o.geographicalLimit)+'</div></div>'+
-    '<div class="pla-kv"><label>Annual Turnover</label><div>'+(o.annualTurnover?esc(o.annualTurnover)+' AED':'Not specified')+'</div></div>'+
-    (o.geographicalLimit!=='UAE' && o.turnoverSplitDetails ? '<div class="pla-kv" style="grid-column:1/-1;"><label>Turnover Country Split</label><div style="font-weight:500;">'+esc(o.turnoverSplitDetails)+'</div></div>' : '') +
+    turnoverKv +
     '<div class="pla-kv"><label>Manual Labor Allowed</label><div>'+(o.manualWorkEmployees||'no')+'</div></div>'+
     '<div class="pla-kv"><label>Subcontracted Operations</label><div>'+(o.subcontractedWork||'no')+'</div></div>'+
     '</div></div>';
