@@ -226,8 +226,9 @@ svg{ width:1em; height:1em; display:inline-block; vertical-align:-0.125em; flex-
 @media (max-width:560px){ .pla-covertype-row{ grid-template-columns:1fr; } }
 
 .pla-chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
-.pla-chip{ padding:7px 15px; border-radius:999px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-size:12.5px; font-weight:650; cursor:pointer; transition:.15s; user-select:none; }
+.pla-chip{ appearance:none; -webkit-appearance:none; font-family:inherit; padding:7px 15px; border-radius:999px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-size:12.5px; font-weight:650; cursor:pointer; transition:.15s; user-select:none; }
 .pla-chip:hover{ border-color:var(--text-faint); }
+.pla-chip:focus-visible{ outline:2px solid var(--green); outline-offset:2px; }
 .pla-chip.selected{ background:var(--green); border-color:var(--green); color:#fff; box-shadow:var(--shadow-sm); }
 .pla-country-turnover-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px; }
 @media (max-width:560px){ .pla-country-turnover-grid{ grid-template-columns:1fr; } }
@@ -857,7 +858,7 @@ function renderCountryTurnoverBlock(o, idx, field, turnoverField, countries, err
   var selected = o[field] || [];
   var chips = countries.map(function(c){
     var sel = selected.indexOf(c)!==-1;
-    return '<div class="pla-chip'+(sel?' selected':'')+'" onclick="App.toggleOffsiteEntryCountry('+idx+', \''+field+'\', \''+esc(c)+'\')">'+esc(c)+'</div>';
+    return '<button type="button" class="pla-chip'+(sel?' selected':'')+'" aria-pressed="'+(sel?'true':'false')+'" onclick="App.toggleOffsiteEntryCountry('+idx+', \''+field+'\', \''+esc(c)+'\')">'+esc(c)+'</button>';
   }).join('');
   var turnoverInputs = selected.map(function(c){
     var errKey = errKeyPrefix+'_'+c;
