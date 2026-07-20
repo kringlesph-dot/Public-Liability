@@ -2,7 +2,8 @@
   "framework": null,
   "buildCommand": null,
   "outputDirectory": ".",
-  "rewrites": [
-    { "source": "/", "destination": "/standalone.html" }
+  "routes": [
+    { "src": "/$", "dest": "/standalone.html" },
+    { "handle": "filesystem" }
   ]
 }
