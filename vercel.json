@@ -1,0 +1,8 @@
+{
+  "framework": null,
+  "buildCommand": false,
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/", "destination": "/standalone.html" }
+  ]
+}
