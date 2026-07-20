@@ -1,0 +1,6 @@
+{
+  "name": "Public Liability Insurance Portal",
+  "description": "Premium multi-step corporate insurance proposal form for Public Liability, including location risk assessments, off-site project operations, liability extensions, and supporting document uploads.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

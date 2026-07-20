@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Public Liability Insurance Portal</title>
+<style>
+:root{
+  --bg:#f4f6f9;
+  --surface:#ffffff;
+  --surface-2:#f8fafc;
+  --border:#e2e8f0;
+  --border-soft:#eef2f6;
+  --text:#0f172a;
+  --text-muted:#5b6577;
+  --text-faint:#94a3b8;
+  --green:#00ab4e;
+  --green-hover:#009141;
+  --green-light:#eefdf4;
+  --green-border:#bcf0da;
+  --blue:#1a3060;
+  --navy:#0c1938;
+  --navy-light:#20345f;
+  --blue-light:#f0f4fc;
+  --blue-border:#d0def5;
+  --orange:#ff9900;
+  --orange-hover:#e08800;
+  --danger:#e11d48;
+  --danger-bg:#fff1f2;
+  --danger-border:#fecdd3;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.05);
+  --shadow:0 8px 24px -6px rgba(15,23,42,.12);
+  --radius-sm:8px;
+  --radius:14px;
+  --radius-lg:20px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b1120;
+    --surface:#111a2c;
+    --surface-2:#0e1524;
+    --border:#233047;
+    --border-soft:#1a2438;
+    --text:#e7ecf5;
+    --text-muted:#93a1ba;
+    --text-faint:#5f6d87;
+    --green:#22c47a;
+    --green-hover:#1aa868;
+    --green-light:#0e2a20;
+    --green-border:#1e4a37;
+    --blue:#7f9be0;
+    --navy:#0c1938;
+    --navy-light:#1b2a4a;
+    --blue-light:#131f38;
+    --blue-border:#2a3b5e;
+    --orange:#ffab33;
+    --orange-hover:#ffbb5c;
+    --danger:#fb7185;
+    --danger-bg:#2a1420;
+    --danger-border:#4a2233;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.3);
+    --shadow:0 8px 28px -6px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b1120; --surface:#111a2c; --surface-2:#0e1524; --border:#233047; --border-soft:#1a2438;
+  --text:#e7ecf5; --text-muted:#93a1ba; --text-faint:#5f6d87;
+  --green:#22c47a; --green-hover:#1aa868; --green-light:#0e2a20; --green-border:#1e4a37;
+  --blue:#7f9be0; --navy:#0c1938; --navy-light:#1b2a4a; --blue-light:#131f38; --blue-border:#2a3b5e;
+  --orange:#ffab33; --orange-hover:#ffbb5c; --danger:#fb7185; --danger-bg:#2a1420; --danger-border:#4a2233;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3); --shadow:0 8px 28px -6px rgba(0,0,0,.55);
+}
+:root[data-theme="light"]{
+  --bg:#f4f6f9; --surface:#ffffff; --surface-2:#f8fafc; --border:#e2e8f0; --border-soft:#eef2f6;
+  --text:#0f172a; --text-muted:#5b6577; --text-faint:#94a3b8;
+  --green:#00ab4e; --green-hover:#009141; --green-light:#eefdf4; --green-border:#bcf0da;
+  --blue:#1a3060; --navy:#0c1938; --navy-light:#20345f; --blue-light:#f0f4fc; --blue-border:#d0def5;
+  --orange:#ff9900; --orange-hover:#e08800; --danger:#e11d48; --danger-bg:#fff1f2; --danger-border:#fecdd3;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.05); --shadow:0 8px 24px -6px rgba(15,23,42,.12);
+}
+*{box-sizing:border-box;}
+body{margin:0;}
+/* Safety net: any icon rendered without an explicit sizing rule (e.g. inside an unclassed heading)
+   would otherwise fall back to the SVG intrinsic default of ~300x150px. Low-specificity bare
+   "svg" selector so any class-scoped icon rule above still wins. */
+svg{ width:1em; height:1em; display:inline-block; vertical-align:-0.125em; flex-shrink:0; }
+#pla-root{
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+#pla-root .display{ font-family: "Segoe UI Semibold", -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing:-0.01em; }
+#pla-root a{ color:inherit; }
+#pla-root button{ font-family:inherit; cursor:pointer; }
+#pla-root input, #pla-root textarea, #pla-root select{ font-family:inherit; color:var(--text); }
+#pla-root ::selection{ background:var(--green); color:#fff; }
+
+/* ---- Header ---- */
+.pla-header{ position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--border); z-index:30; box-shadow:var(--shadow-sm); }
+.pla-header-inner{ max-width:1100px; margin:0 auto; padding:0 20px; height:64px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.pla-logo-row{ display:flex; align-items:center; gap:12px; }
+.pla-logo-badge{ width:38px; height:38px; background:var(--green); border-radius:11px; display:flex; align-items:center; justify-content:center; color:#fff; box-shadow:var(--shadow-sm); flex-shrink:0; }
+.pla-logo-badge svg{ width:20px; height:20px; }
+.pla-brand{ font-size:17px; font-weight:800; letter-spacing:-0.02em; line-height:1; }
+.pla-brand .b1{ color:var(--blue); }
+.pla-brand .b2{ color:var(--green); font-weight:900; }
+.pla-brand .b3{ color:var(--orange); }
+.pla-subbrand{ font-size:9px; color:var(--text-muted); font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-top:3px; }
+.pla-header-actions{ display:flex; align-items:center; gap:10px; }
+.btn-ghost-sm{ font-size:12px; font-weight:600; color:var(--text-muted); background:transparent; border:none; padding:7px 10px; border-radius:8px; transition:.15s; }
+.btn-ghost-sm:hover{ background:var(--surface-2); color:var(--text); }
+.btn-demo{ font-size:12px; font-weight:600; color:var(--green); background:var(--green-light); border:1px solid var(--green-border); padding:7px 12px; border-radius:9px; transition:.15s; }
+.btn-demo:hover{ background:var(--green); color:#fff; }
+
+/* ---- Toast ---- */
+.pla-toast{ position:fixed; top:18px; left:50%; transform:translateX(-50%); z-index:80; display:flex; align-items:center; gap:10px; padding:12px 18px; border-radius:12px; box-shadow:var(--shadow); font-size:13px; font-weight:600; color:#fff; background:var(--navy); border:1px solid var(--navy-light); animation:pla-toast-in .2s ease-out; }
+@keyframes pla-toast-in{ from{ opacity:0; transform:translate(-50%,-16px); } to{ opacity:1; transform:translate(-50%,0); } }
+.pla-toast-dot{ width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.pla-toast.success .pla-toast-dot{ background:var(--green); }
+.pla-toast.error .pla-toast-dot{ background:#fb7185; }
+.pla-toast.info .pla-toast-dot{ background:var(--orange); }
+
+/* ---- Layout ---- */
+.pla-main-wrap{ flex:1; max-width:920px; margin:0 auto; width:100%; padding:32px 20px; }
+.pla-card{ background:var(--surface); border:1px solid var(--border); border-radius:24px; box-shadow:var(--shadow-sm); overflow:hidden; }
+
+/* ---- Progress / step tracker ---- */
+.pla-progress-bar{ background:var(--surface-2); padding:16px 24px; border-bottom:1px solid var(--border); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; }
+.pla-step-pill{ font-size:11px; font-weight:700; color:var(--green); background:var(--green-light); border:1px solid var(--green-border); padding:3px 10px; border-radius:99px; }
+.pla-step-label{ font-size:12px; font-weight:700; color:var(--text-muted); }
+.pla-progress-track{ width:100%; max-width:200px; background:var(--border); height:6px; border-radius:99px; overflow:hidden; }
+.pla-progress-fill{ background:var(--green); height:100%; border-radius:99px; transition:width .3s; }
+
+.pla-steps-track{ display:flex; border-bottom:1px solid var(--border-soft); background:var(--surface-2); padding:12px 24px; justify-content:space-between; gap:8px; }
+.pla-step-item{ display:flex; align-items:center; gap:10px; user-select:none; }
+.pla-step-item.clickable{ cursor:pointer; }
+.pla-step-dot{ width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; border:1px solid var(--border); background:var(--surface); color:var(--text-faint); flex-shrink:0; transition:.15s; }
+.pla-step-dot.done{ background:var(--green-light); border-color:var(--green-border); color:var(--green); }
+.pla-step-dot.active{ background:var(--green); border-color:var(--green); color:#fff; box-shadow:var(--shadow-sm); }
+.pla-step-title{ font-size:12px; font-weight:700; line-height:1.1; color:var(--text-faint); }
+.pla-step-title.active{ color:var(--text); }
+.pla-step-title.done{ color:var(--green); }
+.pla-step-desc{ font-size:10px; color:var(--text-faint); margin-top:2px; }
+@media (max-width:760px){ .pla-steps-track{ display:none; } }
+
+.pla-step-body{ padding:28px; }
+
+/* ---- Overview bar + accordion sections ---- */
+.pla-overview{ background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:16px 22px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; margin-bottom:20px; box-shadow:var(--shadow-sm); }
+.pla-section-card{ background:var(--surface); border:1px solid var(--border); border-radius:18px; margin-bottom:18px; overflow:hidden; transition:border-color .15s, box-shadow .15s; }
+.pla-section-card.active{ border-color:var(--green); box-shadow:0 0 0 3px var(--green-light); }
+.pla-section-card.locked{ background:var(--surface-2); }
+.pla-sec-header{ display:flex; align-items:center; justify-content:space-between; gap:14px; padding:18px 22px; }
+.pla-sec-header.clickable{ cursor:pointer; }
+.pla-sec-header.clickable:hover{ background:var(--surface-2); }
+.pla-sec-left{ display:flex; align-items:center; gap:14px; min-width:0; }
+.pla-sec-badge{ width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; border:1px solid var(--border); background:var(--surface); color:var(--text-faint); }
+.pla-sec-badge.active{ background:var(--green); border-color:var(--green); color:#fff; box-shadow:var(--shadow-sm); }
+.pla-sec-badge.done{ background:var(--green-light); border-color:var(--green-border); color:var(--green); }
+.pla-sec-badge.done svg{ width:14px; height:14px; }
+.pla-sec-badge.locked{ background:var(--surface-2); color:var(--text-faint); }
+.pla-sec-eyebrow{ font-size:10px; font-weight:750; text-transform:uppercase; letter-spacing:.07em; color:var(--text-faint); display:block; }
+.pla-sec-title{ font-size:14.5px; font-weight:700; color:var(--text); margin-top:1px; }
+.pla-section-card.locked .pla-sec-title{ color:var(--text-faint); }
+.pla-sec-desc{ font-size:11.5px; color:var(--text-muted); margin-top:1px; }
+.pla-sec-icon{ color:var(--text-faint); flex-shrink:0; }
+.pla-sec-icon svg{ width:18px; height:18px; }
+.pla-sec-body{ padding:6px 24px 26px; border-top:1px solid var(--border-soft); }
+.pla-sec-nav{ display:flex; justify-content:space-between; align-items:center; margin-top:26px; padding-top:20px; border-top:1px solid var(--border-soft); }
+
+.pla-section-head{ border-bottom:1px solid var(--border-soft); padding-bottom:16px; margin-bottom:24px; }
+.pla-section-head h2{ font-size:20px; font-weight:650; margin:0 0 4px; display:flex; align-items:center; gap:9px; }
+.pla-section-head h2 svg{ color:var(--green); width:20px; height:20px; }
+.pla-section-head p{ font-size:13.5px; color:var(--text-muted); margin:0; max-width:56ch; }
+
+.pla-grid2{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+@media (max-width:640px){ .pla-grid2{ grid-template-columns:1fr; } }
+.pla-field{ display:flex; flex-direction:column; gap:6px; }
+.pla-field.span2{ grid-column:1 / -1; }
+.pla-label{ font-size:13px; font-weight:600; color:var(--text); display:flex; align-items:center; gap:6px; }
+.pla-label svg{ width:14px; height:14px; color:var(--text-faint); }
+.pla-req{ color:var(--danger); font-weight:800; }
+.pla-input, .pla-select, .pla-textarea{ width:100%; padding:9px 13px; border-radius:10px; border:1px solid var(--border); background:var(--surface); font-size:13.5px; outline:none; transition:.15s; }
+.pla-input:focus, .pla-select:focus, .pla-textarea:focus{ border-color:var(--green); box-shadow:0 0 0 3px var(--green-light); }
+.pla-input.err, .pla-textarea.err{ border-color:var(--danger-border); }
+.pla-input.err:focus, .pla-textarea.err:focus{ border-color:var(--danger); box-shadow:0 0 0 3px var(--danger-bg); }
+.pla-textarea{ resize:vertical; min-height:64px; font-family:inherit; }
+.pla-err-msg{ font-size:11.5px; color:var(--danger); font-weight:600; margin:0; }
+.pla-hint{ font-size:10.5px; color:var(--text-faint); margin:0; }
+.pla-currency{ position:relative; }
+.pla-currency span{ position:absolute; left:12px; top:9px; font-size:11px; font-weight:700; color:var(--text-faint); }
+.pla-currency input{ padding-left:42px; }
+
+.pla-panel{ background:var(--surface-2); border:1px solid var(--border-soft); border-radius:14px; padding:16px 18px; display:flex; flex-direction:column; gap:12px; }
+.pla-panel-row{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; }
+.pla-panel-title{ font-size:13px; font-weight:650; color:var(--text); }
+.pla-panel-sub{ font-size:11.5px; color:var(--text-muted); margin-top:2px; }
+.pla-radio-group{ display:flex; gap:16px; flex-shrink:0; }
+.pla-radio{ display:flex; align-items:center; gap:7px; cursor:pointer; font-size:13px; font-weight:500; }
+.pla-radio input{ width:15px; height:15px; accent-color:var(--green); }
+
+.pla-note{ display:flex; gap:8px; padding:9px 11px; border-radius:9px; font-size:11px; line-height:1.5; margin-top:8px; }
+.pla-note.amber{ background:#fef8ec; border:1px solid #f4dfa3; color:#8a5b00; }
+.pla-note.slate{ background:var(--surface-2); border:1px solid var(--border-soft); color:var(--text-muted); }
+.pla-note.blue{ background:var(--blue-light); border:1px solid var(--blue-border); color:var(--blue); }
+@media (prefers-color-scheme: dark){
+  .pla-note.amber{ background:#2c220a; border-color:#5c4813; color:#eab54a; }
+}
+:root[data-theme="dark"] .pla-note.amber{ background:#2c220a; border-color:#5c4813; color:#eab54a; }
+.pla-note svg{ width:14px; height:14px; flex-shrink:0; margin-top:1px; }
+
+.pla-loc-card{ border:1px solid var(--border); border-radius:16px; overflow:hidden; background:var(--surface); margin-bottom:20px; }
+.pla-loc-head{ background:var(--surface-2); padding:11px 18px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+.pla-loc-num{ width:20px; height:20px; border-radius:50%; background:var(--border); color:var(--text-muted); font-size:10px; font-weight:800; display:inline-flex; align-items:center; justify-content:center; margin-right:8px; }
+.pla-loc-title{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); display:flex; align-items:center; }
+.pla-loc-del{ background:none; border:none; color:var(--text-faint); font-size:12px; font-weight:600; display:flex; align-items:center; gap:5px; padding:5px 8px; border-radius:7px; }
+.pla-loc-del:hover{ color:var(--danger); background:var(--danger-bg); }
+.pla-loc-del svg{ width:14px; height:14px; }
+.pla-loc-body{ padding:18px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media (max-width:640px){ .pla-loc-body{ grid-template-columns:1fr; } }
+
+.pla-covertype-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px; }
+@media (max-width:560px){ .pla-covertype-row{ grid-template-columns:1fr; } }
+.pla-covertype-opt{ display:flex; align-items:center; gap:10px; padding:14px 16px; border:1.5px solid var(--border); border-radius:12px; background:var(--surface); cursor:pointer; font-size:14px; font-weight:650; color:var(--text); transition:.15s; }
+.pla-covertype-opt:hover{ border-color:var(--text-faint); }
+.pla-covertype-opt.selected{ border-color:var(--green); background:var(--green-light); box-shadow:0 0 0 1px var(--green); }
+.pla-covertype-opt input{ width:16px; height:16px; accent-color:var(--green); flex-shrink:0; }
+
+.pla-project-panel{ border:1px solid var(--blue-border); border-radius:14px; overflow:hidden; margin-bottom:4px; }
+.pla-project-head{ background:var(--blue-light); color:var(--blue); font-weight:700; font-size:13.5px; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; user-select:none; }
+.pla-project-head svg{ width:16px; height:16px; transition:transform .15s; transform:rotate(180deg); }
+.pla-project-head.collapsed svg{ transform:rotate(0deg); }
+.pla-project-body{ padding:16px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; background:var(--surface); }
+@media (max-width:760px){ .pla-project-body{ grid-template-columns:1fr 1fr; } }
+@media (max-width:520px){ .pla-project-body{ grid-template-columns:1fr; } }
+
+.pla-add-loc{ display:flex; justify-content:center; }
+.pla-add-loc button{ display:flex; align-items:center; gap:8px; font-size:13px; font-weight:650; color:var(--green); background:transparent; border:1.5px dashed var(--green-border); padding:10px 18px; border-radius:11px; }
+.pla-add-loc button:hover{ border-color:var(--green); background:var(--green-light); }
+.pla-add-loc svg{ width:15px; height:15px; }
+
+.pla-ext-card{ padding:16px; border-radius:14px; border:2px solid var(--border-soft); background:var(--surface); display:flex; gap:14px; cursor:pointer; transition:.15s; margin-bottom:12px; }
+.pla-ext-card:hover{ border-color:var(--border); background:var(--surface-2); }
+.pla-ext-card.checked{ border-color:var(--green); background:var(--green-light); }
+.pla-ext-box{ width:20px; height:20px; border-radius:6px; border:1px solid var(--border); background:var(--surface); display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.pla-ext-box.checked{ background:var(--green); border-color:var(--green); color:#fff; }
+.pla-ext-box svg{ width:13px; height:13px; }
+.pla-ext-title{ font-size:13.5px; font-weight:650; display:block; }
+.pla-ext-desc{ font-size:12px; color:var(--text-muted); margin-top:4px; line-height:1.5; }
+.pla-ext-heading{ font-size:16px; font-weight:650; display:flex; align-items:center; gap:8px; margin:0 0 4px; color:var(--text); }
+.pla-ext-heading svg{ width:18px; height:18px; color:var(--green); }
+
+.pla-dropzone{ border:2px dashed var(--border); border-radius:14px; padding:26px; text-align:center; cursor:pointer; min-height:150px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; transition:.15s; }
+.pla-dropzone:hover{ border-color:var(--green); background:var(--green-light); }
+.pla-dropzone.drag{ border-color:var(--green); background:var(--green-light); transform:scale(.98); }
+.pla-dropzone.has-file{ border-color:var(--green-border); border-style:solid; }
+.pla-dropzone.err{ border-color:var(--danger-border); }
+.pla-dz-icon{ padding:11px; border-radius:11px; background:var(--surface-2); color:var(--text-faint); }
+.pla-dz-icon svg{ width:22px; height:22px; }
+.pla-dz-icon.done{ background:var(--green-light); color:var(--green); }
+.pla-remove-file{ font-size:11.5px; font-weight:650; color:var(--danger); background:var(--danger-bg); border:1px solid var(--danger-border); padding:5px 11px; border-radius:8px; display:inline-flex; align-items:center; gap:6px; margin-top:8px; }
+.pla-remove-file svg{ width:13px; height:13px; }
+.pla-photo-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:14px; }
+@media (max-width:640px){ .pla-photo-grid{ grid-template-columns:repeat(2,1fr); } }
+.pla-photo-tile{ position:relative; aspect-ratio:1; border-radius:12px; overflow:hidden; border:1px solid var(--border); background:var(--surface-2); }
+.pla-photo-tile img{ width:100%; height:100%; object-fit:cover; display:block; }
+.pla-photo-overlay{ position:absolute; inset:0; background:rgba(10,15,25,.6); opacity:0; transition:.15s; display:flex; flex-direction:column; justify-content:space-between; padding:8px; }
+.pla-photo-tile:hover .pla-photo-overlay{ opacity:1; }
+.pla-photo-overlay .name{ font-size:9.5px; color:#fff; font-weight:600; }
+.pla-photo-del{ background:#e11d48; border:none; color:#fff; border-radius:7px; padding:5px; align-self:flex-end; }
+.pla-photo-del svg{ width:13px; height:13px; display:block; }
+
+.pla-ready-chip{ font-size:10.5px; font-weight:650; color:var(--green); background:var(--green-light); padding:2px 9px; border-radius:99px; border:1px solid var(--green-border); display:inline-flex; align-items:center; gap:4px; }
+.pla-ready-chip svg{ width:11px; height:11px; }
+
+/* Review step */
+.pla-alert{ padding:14px 16px; border-radius:14px; display:flex; gap:12px; align-items:flex-start; }
+.pla-alert.bad{ background:var(--danger-bg); border:1px solid var(--danger-border); color:var(--danger); }
+.pla-alert.good{ background:var(--green-light); border:1px solid var(--green-border); color:var(--green); }
+.pla-alert svg{ width:18px; height:18px; flex-shrink:0; margin-top:1px; }
+.pla-alert ul{ margin:6px 0 0; padding-left:18px; font-size:12px; font-weight:500; }
+.pla-alert strong{ font-size:13px; display:block; color:var(--text); }
+
+.pla-rev-card{ border:1px solid var(--border-soft); border-radius:14px; overflow:hidden; background:var(--surface); margin-bottom:16px; }
+.pla-rev-head{ background:var(--surface-2); padding:9px 16px; border-bottom:1px solid var(--border-soft); font-size:11px; font-weight:750; text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted); display:flex; align-items:center; gap:8px; }
+.pla-rev-head svg{ width:14px; height:14px; }
+.pla-rev-body{ padding:16px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; font-size:13px; }
+@media (max-width:700px){ .pla-rev-body{ grid-template-columns:1fr 1fr; } }
+.pla-rev-body.two{ grid-template-columns:1fr 1fr; }
+.pla-kv label{ display:block; font-size:10px; text-transform:uppercase; color:var(--text-faint); font-weight:650; margin-bottom:2px; }
+.pla-kv div{ font-weight:650; color:var(--text); }
+.pla-rev-loc{ padding:14px 16px; border-top:1px solid var(--border-soft); }
+.pla-rev-loc:first-child{ border-top:none; }
+
+.pla-sign-box{ background:var(--surface-2); border:1px solid var(--border); border-radius:18px; padding:22px; display:flex; flex-direction:column; gap:18px; }
+.pla-sign-title{ font-size:15px; font-weight:700; display:flex; align-items:center; gap:7px; margin:0 0 6px; }
+.pla-sign-title svg{ width:16px; height:16px; color:var(--green); }
+.pla-sign-desc{ font-size:12px; color:var(--text-muted); line-height:1.6; margin:0; }
+.pla-agree{ display:flex; gap:10px; align-items:flex-start; }
+.pla-agree input{ width:16px; height:16px; margin-top:2px; accent-color:var(--green); }
+.pla-agree label{ font-size:12px; font-weight:650; line-height:1.55; cursor:pointer; }
+.pla-sign-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; border-top:1px solid var(--border); padding-top:16px; }
+@media (max-width:600px){ .pla-sign-grid{ grid-template-columns:1fr; } }
+.pla-sign-preview{ background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px; text-align:center; }
+.pla-sign-preview .cap{ font-size:9.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-faint); font-weight:700; display:block; margin-bottom:4px; }
+.pla-sign-preview .name{ font-family:"Segoe Script", cursive, Georgia, serif; font-style:italic; font-size:28px; color:var(--blue); font-weight:650; margin:6px 0; }
+.pla-sign-preview .meta{ font-size:10px; color:var(--text-faint); border-top:1px solid var(--border-soft); padding-top:6px; }
+
+/* Nav footer */
+.pla-nav-footer{ background:var(--surface-2); padding:16px 24px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; }
+.pla-nav-left{ display:flex; gap:8px; }
+.btn{ display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:650; padding:9px 16px; border-radius:11px; border:1px solid transparent; transition:.15s; }
+.btn svg{ width:14px; height:14px; }
+.btn-outline{ background:var(--surface); border-color:var(--border); color:var(--text); }
+.btn-outline:hover{ background:var(--surface-2); border-color:var(--text-faint); }
+.btn-text{ background:transparent; color:var(--text-muted); }
+.btn-text:hover{ background:var(--border-soft); color:var(--text); }
+.btn-primary{ background:var(--blue); color:#fff; box-shadow:var(--shadow-sm); }
+.btn-primary:hover{ background:var(--navy-light); }
+.btn-submit{ background:var(--orange); color:#0c1938; font-weight:750; box-shadow:var(--shadow-sm); }
+.btn-submit:hover{ background:var(--orange-hover); }
+
+/* Success / viewing proposal */
+.pla-success{ padding:22px; background:var(--green-light); border:1px solid var(--green-border); border-radius:18px; text-align:center; display:flex; flex-direction:column; gap:10px; align-items:center; }
+.pla-success-check{ width:46px; height:46px; border-radius:50%; background:var(--green); color:#fff; display:flex; align-items:center; justify-content:center; }
+.pla-success-check svg{ width:22px; height:22px; }
+.pla-success h3{ margin:0; font-size:17px; }
+.pla-success p{ margin:0; font-size:12.5px; color:var(--text-muted); max-width:48ch; }
+.pla-success .row{ display:flex; gap:10px; margin-top:4px; }
+
+.pla-doc-head{ display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid var(--border); padding-bottom:18px; gap:16px; flex-wrap:wrap; }
+.pla-doc-head .eyebrow{ font-size:11px; font-weight:750; color:var(--green); text-transform:uppercase; letter-spacing:.06em; }
+.pla-doc-head h2{ font-size:19px; margin:2px 0 6px; }
+.pla-doc-head .ref{ font-size:11.5px; color:var(--text-faint); }
+.pla-doc-actions{ display:flex; gap:8px; }
+
+.pla-footer{ background:var(--surface); border-top:1px solid var(--border); padding:22px 20px; margin-top:40px; text-align:center; }
+.pla-footer p{ font-size:11.5px; color:var(--text-faint); margin:3px 0; }
+
+.no-print{}
+@media print{
+  body{ background:#fff; }
+  .no-print{ display:none !important; }
+  #pla-root{ background:#fff; }
+  .pla-card{ box-shadow:none; border:none; }
+}
+</style>
+
+</head>
+<body>
+<div id="pla-root">
+  <div id="pla-toast-slot"></div>
+  <header class="pla-header no-print">
+    <div class="pla-header-inner">
+      <div class="pla-logo-row">
+        <div class="pla-logo-badge">${''}</div>
+        <div>
+          <div class="pla-brand display"><span class="b1">insurance</span><span class="b2">MARKET</span><span class="b3">.ae</span></div>
+          <div class="pla-subbrand">Gulf Business &bull; Public Liability Portal</div>
+        </div>
+      </div>
+      <div class="pla-header-actions">
+        <button class="btn-demo" onclick="App.loadDemoData()">Autofill Sample Data</button>
+        <button class="btn-ghost-sm" onclick="App.resetForm()" title="Clear form data">Reset Template</button>
+      </div>
+    </div>
+  </header>
+  <div class="pla-main-wrap">
+    <main id="pla-main"></main>
+  </div>
+  <footer class="pla-footer no-print">
+    <p>&copy; 2026 insuranceMARKET.ae. Licensed by the UAE Central Bank. All rights reserved.</p>
+    <p>Form references satisfy standard Dubai JAFZA, Abu Dhabi KIZAD, DDA, and Freezone liability certificates compliance formats.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var ICONS = {
+  shield: ['M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3Z'],
+  check: ['M20 6 9 17l-5-5'],
+  chevronLeft: ['M15 18l-6-6 6-6'],
+  chevronRight: ['M9 18l6-6-6-6'],
+  chevronDown: ['M6 9l6 6 6-6'],
+  trash: ['M3 6h18','M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2','M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6'],
+  plus: ['M12 5v14','M5 12h14'],
+  upload: ['M12 16V5','M8 9l4-4 4 4','M4 20h16'],
+  alert: ['M12 9v4','M12 17h.01','M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z'],
+  info: ['M12 16v-4','M12 8h.01','M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z'],
+  save: ['M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z','M17 21v-8H7v8','M7 3v5h8'],
+  undo: ['M3 7v6h6','M21 17a9 9 0 0 0-15-6.7L3 13'],
+  printer: ['M6 9V3h12v6','M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2','M8 14h8v7H8z'],
+  file: ['M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Z','M14 2v6h6'],
+  image: ['M4 4h16v16H4z','M9 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z','M20 15l-5-5L6 20'],
+  mapPin: ['M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 1 1 18 0Z','M12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z'],
+  building: ['M4 21h16','M6 21V6l6-3 6 3v15','M10 9h1','M10 13h1','M13 9h1','M13 13h1','M10 21v-4h4v4'],
+  briefcase: ['M3 7h18v13H3z','M8 7V4h8v3'],
+  users: ['M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2','M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8','M22 21v-2a4 4 0 0 0-3-3.87','M16 3.13a4 4 0 0 1 0 7.75'],
+  coins: ['M8 14a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z','M6.3 20a6 6 0 0 0 8.4-1.1','M4 15.5A6 6 0 0 0 12.5 20'],
+  pen: ['M11 20H4v-3l11.5-11.5a2.1 2.1 0 0 1 3 3L7 20'],
+  settings: ['M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z','M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9c.1.7.5 1.3 1.1 1.6.3.2.6.3 1 .3H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z'],
+  paperclip: ['M21.4 11.5 12 20.9a5 5 0 0 1-7.1-7.1l9-9a3.5 3.5 0 1 1 5 5l-9 9a2 2 0 1 1-2.8-2.8l8.5-8.4'],
+  map: ['M9 20 3 17V4l6 3 6-3 6 3v13l-6-3-6 3Z','M9 4v16','M15 7v16']
+};
+function icon(name, cls){
+  var d = ICONS[name] || [];
+  var paths = d.map(function(p){ return '<path d="'+p+'"/>'; }).join('');
+  return '<svg class="'+(cls||'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+paths+'</svg>';
+}
+
+var OCCUPANCY_OPTIONS = ['Office - Building Location','Office - Warehouse Location','Clinics','Restaurant - Alcohol, Shisha, BBQ','Retail Shop (Excludes Jewelry)','Salon/Barbershop','Warehouse - Direct Referral','Educational Centers','Kiosk (Indoor)','Kiosk (Outdoor)','Others'];
+var NATURE_OF_BUSINESS_OPTIONS = ['General Trading','Electronics Trading','Building Materials Trading','Chemicals & Solvents Trading','Food Commodities Trading','Furniture Trading','Medical Equipment Trading','Textile & Garments Trading','Auto Parts Trading','Machinery & Equipment Trading','Jewellery & Precious Metals Trading','Agricultural Products Trading','Cosmetics & Perfumes Trading','Office Supplies Trading','Industrial Equipment Trading','Supermarket / Hypermarket','Fashion & Clothing Store','Electronics & Gadgets Retail','Online Retail / E-Commerce Platform','Pharmacy & Drug Store','Jewellery Store','Toy Store','Sporting Goods Store','Home Appliances Store','Furniture Showroom','Bookstore & Stationery','Perfume & Cosmetics Store','Mobile Phone Retail','Convenience Store','Specialty Food Retail','Restaurant','Café & Coffee Shop','Fast Food Outlet','Food Delivery Service','Catering Company','Bakery & Confectionery','Cloud Kitchen','Food Manufacturing','Food Import & Distribution','Snack & Beverage Production','Juice Bar','Dessert Shop','Food Truck','Meat Processing','Dairy Products','5-Star Hotel','4-Star Hotel','3-Star / Budget Hotel','Hotel Apartment','Serviced Apartment','Holiday Home (Short-Term Rental)','Hostel / Backpacker','Resort & Beach Club','Guest House','Motel','Furnished Apartments','Boutique Hotel','Heritage Hotel','Staff Accommodation','Holiday Home Management Company','Real Estate Developer','Property Management Company','Real Estate Brokerage','Facility Management – Residential','Strata Management','Co-Working Space Operator','Property Valuation Firm','Real Estate Investment Trust (REIT)','Warehouse / Storage Leasing','Commercial Property Leasing','Mixed-Use Development','Community Management','Short-Term Rental Management','Real Estate Consultancy','Property Maintenance Services','Civil & Structural Contractor','MEP Contractor (Mechanical, Electrical, Plumbing)','Interior Fit-Out Contractor','Roads & Infrastructure Contractor','Demolition & Site Clearing','Piling & Foundation Contractor','Waterproofing & Insulation Contractor','Steel Fabrication & Erection','Glass & Aluminium Works','Landscaping Contractor','Swimming Pool Contractor','Flooring & Tiling Contractor','Painting & Decorating Contractor','Scaffolding & Formwork','Fire Protection Systems Contractor','Structural Engineering Consultancy','MEP Engineering Consultancy','Geotechnical Engineering','Environmental Engineering','Electrical Engineering Services','HVAC Engineering','Fire Safety Engineering','Elevator & Escalator Maintenance','Technical Inspection Services','Testing & Commissioning','Surveying & Mapping','Project Management Consultancy','Cost Consultancy / Quantity Surveying','BIM & Digital Engineering','Renewable Energy Engineering','General Hospital','Specialist Clinic','Dental Clinic','Optical Clinic','Physiotherapy Center','Diagnostic Laboratory','Radiology Center','Pharmacy','Home Healthcare Services','Aesthetic & Cosmetic Clinic','Fertility Clinic','Psychiatric & Mental Health Clinic','Ambulance Services','Medical Equipment Supplier','Wellness & Preventive Health Center','Private School (K-12)','Nursery & Early Childhood','University / Higher Education','Vocational & Technical Training','Corporate Training Provider','Language Institute','Tutoring & Coaching Center','STEM Education Provider','Sports Academy','Arts & Music School','Online Learning Platform','Professional Certification Body','Driving School','Aviation Training','Special Needs Education Center','Commercial Bank','Investment Bank','Exchange & Remittance','Insurance Brokerage','Asset Management Company','Investment Advisory','Financial Planning Firm','Audit & Accounting Firm','Venture Capital / Private Equity','Mortgage Brokerage','Payment & FinTech Company','Microfinance Institution','Crowdfunding Platform','Commodity Brokerage','Wealth Management','Law Firm / Legal Consultancy','Corporate Secretary Services','Taxation & VAT Consultancy','Business Setup Consultancy','Management Consultancy','HR & Recruitment Consultancy','Public Relations (PR) Agency','Strategy Consultancy','Regulatory & Compliance Consultancy','Immigration Consultancy','Trademark & IP Firm','Arbitration & Dispute Resolution','Notary Services','CSR Consultancy','Risk & Governance Consultancy','Software Development Company','IT Consultancy','Cybersecurity Firm','Cloud Services Provider','Data Analytics & AI Company','Telecom Operator','IT Infrastructure & Networking','Mobile App Development','E-Commerce Platform Development','ERP Implementation','Managed IT Services (MSP)','IoT Solutions','Blockchain & Web3 Company','Digital Transformation Consultancy','IT Hardware Reseller','Advertising Agency','Digital Marketing Agency','PR & Communications Agency','Event Management Company','Film & TV Production','Photography Studio','Social Media Agency','Content Creation Studio','Brand Consultancy','Exhibition & Trade Show Organiser','Music & Entertainment','Publishing House','Market Research Firm','Outdoor Advertising','Influencer Marketing Agency','Freight Forwarding','Customs Clearance Agent','Courier & Last-Mile Delivery','Third-Party Logistics (3PL)','Warehousing & Distribution','Cold Chain Logistics','Sea Freight Operator','Air Freight Operator','Road Haulage & Trucking','Project Cargo & Heavy Lift','Supply Chain Consultancy','E-Fulfillment Center','Reverse Logistics','Port & Terminal Operations','Packing & Moving Services','Metal Fabrication & Steel Works','Plastic & Rubber Manufacturing','Chemical Manufacturing','Food & Beverage Production','Pharmaceutical Manufacturing','Textile & Garment Manufacturing','Wood & Furniture Manufacturing','Paper & Packaging Manufacturing','Electronics Manufacturing','Construction Materials Manufacturing','Glass Manufacturing','Paint & Coatings Manufacturing','Printing & Packaging','Consumer Goods Manufacturing','Industrial Equipment Manufacturing','Oil Exploration & Production','Gas Processing & Distribution','Petroleum Refinery','Oilfield Services','Pipeline & Storage','LNG / LPG Distribution','Renewable Energy (Solar, Wind)','Energy Trading','Power Generation & Utilities','Energy Engineering & EPC','Petro-chemicals','Fuel Retail & Distribution','Energy Consultancy','Carbon Credits & Sustainability','Offshore Operations','Ship Owner & Operator','Ship Management Company','Marine Contracting & Diving','Port & Terminal Operator','Vessel Chartering & Brokerage','Marine Engineering','Boat & Yacht Sales','Fishing & Aquaculture','Offshore Supply Vessel (OSV) Operator','Marine Surveyors','Dredging & Reclamation','Marine Fuel Supply','Towage & Salvage','Marine Logistics','Dry Dock & Shipyard','Commercial Airline','Charter & Private Aviation','Cargo Airline','MRO (Maintenance, Repair & Overhaul)','Ground Handling Services','Aviation Training Academy','Aerospace Manufacturing','Airport Operations','Air Traffic Management','Unmanned Aerial Systems (Drones)','Aviation Consultancy','Aircraft Leasing','FBO (Fixed-Base Operator)','Helipad & Heliport Services','Avionics & Systems','Crop Farming & Horticulture','Livestock Farming','Poultry & Eggs Production','Aquaculture & Fish Farming','Organic Farming','Greenhouse Farming','Food Processing Plant','Meat Processing & Packing','Dairy Processing','Flour Milling','Edible Oil Processing','Spice & Condiment Production','Snack Food Production','Agri-Tech & Smart Farming','Agricultural Consultancy','Travel Agency (Outbound)','Travel Agency (Inbound / DMC)','Tour Operator','Visa & Documentation Services','Adventure Tourism','Cultural Tourism','Medical Tourism Facilitator','Online Travel Agency (OTA)','Cruise Services','Heritage & Museum Tourism','Desert & Safari Tourism','City Tours & Sightseeing','MICE (Meetings, Incentives, Conferences, Events)','Airline GSA / Representation','Tourism Consultancy','Salon & Barbershop','Spa & Massage Center','Beauty Clinic (Non-Medical)','Nail & Lash Studio','Tattoo & Body Art Studio','Wellness & Meditation Center','Yoga & Pilates Studio','Fitness & Gym','Slimming & Weight Management Center','Makeup Artist (Freelance/Studio)','Aesthetic Training Institute',"Men's Grooming Lounge",'Tanning & Solarium','Hair Transplant Clinic (Medical)','Holistic Health Center','Integrated Facility Management (IFM)','Cleaning & Janitorial Services','Pest Control','Waste Management & Recycling','Security & Guarding Services','Parking Management','Elevator Maintenance','HVAC Maintenance','Soft Services (Landscaping, Reception)','Hard Services (MEP Maintenance)','Property Maintenance','Pool & Water Feature Maintenance','Fire & Safety Systems Maintenance','Laundry & Linen Services','Concierge Services','Federal Government Entity','Emirate Government Department','Government-Linked Company (GLC)','Free Zone Authority','Municipality','Public Utility (Water, Electricity)','Government Investment Arm / SWF','Regulatory Authority','Public Transport Operator','Government Hospital / Health Authority','Government School / University','Cultural & Heritage Authority','Sports & Recreation Authority','Environment Agency','Port Authority','Charity & Humanitarian Organisation','Trade Association','Professional Association','Sports Club','Religious Organisation','Cultural Association','Foundation & Grant-Making Body','Community Development Association','Research & Think Tank','Advocacy & Lobbying Group','Animal Welfare Organisation','Youth Development Organisation','Environmental NGO','Alumni Association','Industry Regulatory Body','New Car Dealership','Used Car Dealership','Auto Service & Repair Workshop','Car Rental Company','Tyre & Accessories Shop','Car Wash & Detailing','Auto Parts Trading & Distribution','Fleet Management Services','Speciality Vehicle Manufacturer / Modifier','EV Charging Infrastructure','Motorcycle Sales & Repair','Commercial Vehicle Dealership','Auto Finance','Classic Car Restoration','Driving School (Vehicles)'];
+var GEOGRAPHICAL_LIMITS = ['UAE','GCC','Worldwide excl. US and Canada','Worldwide inc. US & Canada'];
+var PROJECT_DURATION_OPTIONS = ['Less than 3 months','3 to 6 months','6 to 12 months','1 to 2 years','2 to 5 years','More than 5 years'];
+var CONSTRUCTION_CONTRACTING_ACTIVITIES = ['Civil & Structural Contractor','MEP Contractor (Mechanical, Electrical, Plumbing)','Interior Fit-Out Contractor','Roads & Infrastructure Contractor','Demolition & Site Clearing','Piling & Foundation Contractor','Waterproofing & Insulation Contractor','Steel Fabrication & Erection','Glass & Aluminium Works','Landscaping Contractor','Swimming Pool Contractor','Flooring & Tiling Contractor','Painting & Decorating Contractor','Scaffolding & Formwork','Fire Protection Systems Contractor','Structural Engineering Consultancy','MEP Engineering Consultancy','Geotechnical Engineering','Environmental Engineering','Electrical Engineering Services','HVAC Engineering','Fire Safety Engineering','Technical Inspection Services','Testing & Commissioning','Surveying & Mapping','Project Management Consultancy','Cost Consultancy / Quantity Surveying','BIM & Digital Engineering','Renewable Energy Engineering'];
+var MANUFACTURING_PRODUCTION_ACTIVITIES = ['Food Manufacturing','Snack & Beverage Production','Metal Fabrication & Steel Works','Plastic & Rubber Manufacturing','Chemical Manufacturing','Food & Beverage Production','Pharmaceutical Manufacturing','Textile & Garment Manufacturing','Wood & Furniture Manufacturing','Paper & Packaging Manufacturing','Electronics Manufacturing','Construction Materials Manufacturing','Glass Manufacturing','Paint & Coatings Manufacturing','Printing & Packaging','Consumer Goods Manufacturing','Industrial Equipment Manufacturing','Food Processing Plant','Meat Processing & Packing','Dairy Processing','Flour Milling','Edible Oil Processing','Spice & Condiment Production','Snack Food Production'];
+var MAINTENANCE_FACILITIES_ACTIVITIES = ['Property Maintenance Services','Elevator & Escalator Maintenance','Integrated Facility Management (IFM)','Cleaning & Janitorial Services','Pest Control','Waste Management & Recycling','Security & Guarding Services','Parking Management','Elevator Maintenance','HVAC Maintenance','Soft Services (Landscaping, Reception)','Hard Services (MEP Maintenance)','Property Maintenance','Pool & Water Feature Maintenance','Fire & Safety Systems Maintenance','Laundry & Linen Services','Concierge Services'];
+var OFFSITE_AUTO_YES_ACTIVITIES = CONSTRUCTION_CONTRACTING_ACTIVITIES.concat(MANUFACTURING_PRODUCTION_ACTIVITIES, MAINTENANCE_FACILITIES_ACTIVITIES);
+var STEPS = [
+  {id:1,title:'Company Details',desc:'Corporate information'},
+  {id:2,title:'Risk Assessment',desc:'Location details'},
+  {id:3,title:'Off-site Cover',desc:'Subcontracts & extensions'},
+  {id:4,title:'Uploads',desc:'License & asset photos'}
+];
+var STORAGE_DRAFT = 'pla_active_draft';
+var STORAGE_SUBMITTED = 'pla_submitted_proposals';
+
+function uid(){ return 'PLA-' + Math.random().toString(36).substr(2,9).toUpperCase(); }
+function esc(s){ return (s===undefined||s===null?'':String(s)).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function fmtMoney(v){ var clean = (v||'').replace(/[^0-9]/g,''); return clean ? Number(clean).toLocaleString('en-US') : ''; }
+function formatFileSize(bytes){ if(!bytes) return '0 Bytes'; var k=1024, sizes=['Bytes','KB','MB']; var i=Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(1))+' '+sizes[i]; }
+
+function createEmptyLocation(id){
+  return { id:id, address:'', limitOfIndemnity:'', occupancy:'Office - Building Location', occupancyOtherDetails:'', claimsHistoryLast5Years:'no', claimsDetails:'' };
+}
+function createEmptyOffsiteEntry(id){
+  return { id:id, coverType:'annual', location:'', limitOfIndemnity:'', geographicalLimit:'UAE', manualWorkEmployees:'no', annualTurnover:'', turnoverSplitDetails:'', estimatedProjects:'', numberOfEmployees:'', subcontractedWork:'no', subcontractedServices:'', subcontractedPercentage:'',
+    projectTitle:'', projectContractValue:'', projectLiabilityLimit:'', projectDuration:'', projectLocation:'', projectScopeOfWork:'' };
+}
+function createEmptyApplication(){
+  return {
+    id: uid(),
+    companyInfo:{ companyName:'', tradeLicenseNumber:'', businessActivity:'', businessDescription:'', contactPerson:'', contactEmail:'', contactPhone:'' },
+    numberOfLocations:1,
+    locations:[createEmptyLocation('1')],
+    offsiteOperations:{ coverRequired:'no', entries:[createEmptyOffsiteEntry('1')] },
+    extensions:{ propertyBeingWorkedUpon:false, propertyUnderCareCustodyControl:false, principalsExistingProperty:false },
+    attachments:{ tradeLicense:null, photos:[] },
+    status:'draft'
+  };
+}
+
+function loadJSON(key, fallback){
+  try{ var raw = localStorage.getItem(key); if(!raw) return fallback; return JSON.parse(raw); }
+  catch(e){ return fallback; }
+}
+
+var state = {
+  appState: loadJSON(STORAGE_DRAFT, null) || createEmptyApplication(),
+  submittedProposals: loadJSON(STORAGE_SUBMITTED, []),
+  currentStep: 1,
+  signatureName: '',
+  signatureDate: new Date().toISOString().split('T')[0],
+  errors: {},
+  viewingProposal: null,
+  showSuccessState: false,
+  toast: null
+};
+var toastTimer = null;
+
+function saveDraft(silent){
+  localStorage.setItem(STORAGE_DRAFT, JSON.stringify(state.appState));
+  if(!silent) showToast('Draft progress successfully saved!', 'success');
+}
+function showToast(msg, type){
+  state.toast = {message:msg, type:type||'success'};
+  renderToast();
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ state.toast=null; renderToast(); }, 4000);
+}
+function renderToast(){
+  var slot = document.getElementById('pla-toast-slot');
+  if(!state.toast){ slot.innerHTML=''; return; }
+  slot.innerHTML = '<div class="pla-toast '+state.toast.type+' no-print"><div class="pla-toast-dot"></div>'+esc(state.toast.message)+'</div>';
+}
+
+/* ---------------- Validation ---------------- */
+function computeStepErrors(step){
+  var a = state.appState, errs = {};
+  if(step===1){
+    if(!a.companyInfo.companyName.trim()) errs.companyName='Company name is required.';
+    if(!a.companyInfo.tradeLicenseNumber.trim()) errs.tradeLicenseNumber='Trade license number is required.';
+    if(!a.companyInfo.contactPerson.trim()) errs.contactPerson='Primary contact person is required.';
+    if(!a.companyInfo.contactEmail.trim()) errs.contactEmail='Email address is required.';
+    else if(!/\S+@\S+\.\S+/.test(a.companyInfo.contactEmail)) errs.contactEmail='Email address format is invalid.';
+    if(!a.companyInfo.contactPhone.trim()) errs.contactPhone='Phone number is required.';
+    if(!a.companyInfo.businessActivity.trim()) errs.businessActivity='Business activity is required.';
+    if(!a.companyInfo.businessDescription.trim()) errs.businessDescription='Operations description is required.';
+  } else if(step===2){
+    a.locations.forEach(function(loc, idx){
+      if(!loc.address.trim()) errs['loc_'+idx+'_address']='Full address is required for Location #'+(idx+1)+'.';
+      if(!loc.limitOfIndemnity.trim()) errs['loc_'+idx+'_limit']='Indemnity limit is required for Location #'+(idx+1)+'.';
+      if(loc.occupancy==='Others' && !(loc.occupancyOtherDetails||'').trim()) errs['loc_'+idx+'_other']="Please clarify 'Others' occupancy description for Location #"+(idx+1)+'.';
+      if(loc.claimsHistoryLast5Years==='yes' && !(loc.claimsDetails||'').trim()) errs['loc_'+idx+'_claims']='Claims breakdown is mandatory for Location #'+(idx+1)+" due to 'Yes' history flag.";
+    });
+  } else if(step===3){
+    if(a.offsiteOperations.coverRequired==='yes'){
+      a.offsiteOperations.entries.forEach(function(o, idx){
+        if(o.coverType==='project'){
+          if(!(o.projectTitle||'').trim()) errs['offsite_'+idx+'_ptitle']='Title of contract is required for Entry #'+(idx+1)+'.';
+          if(!(o.projectLiabilityLimit||'').trim()) errs['offsite_'+idx+'_pliab']='Third party liability limit is required for Entry #'+(idx+1)+'.';
+          if(!(o.projectLocation||'').trim()) errs['offsite_'+idx+'_ploc']='Project location is required for Entry #'+(idx+1)+'.';
+          if(!(o.projectScopeOfWork||'').trim()) errs['offsite_'+idx+'_pscope']='Exact scope of work is required for Entry #'+(idx+1)+'.';
+        } else {
+          if(!(o.location||'').trim()) errs['offsite_'+idx+'_loc']='Off-site location is required for Entry #'+(idx+1)+'.';
+          if(!(o.limitOfIndemnity||'').trim()) errs['offsite_'+idx+'_limit']='Off-site location limit of indemnity is required for Entry #'+(idx+1)+'.';
+          if(!o.estimatedProjects) errs['offsite_'+idx+'_projects']='Estimated projects count is required for Entry #'+(idx+1)+'.';
+          if(!o.numberOfEmployees) errs['offsite_'+idx+'_employees']='Number of employees is required for Entry #'+(idx+1)+'.';
+        }
+      });
+    }
+  } else if(step===4){
+    if(!a.attachments.tradeLicense) errs.tradeLicense='Uploading your valid Trade License is a mandatory requirement.';
+  }
+  return errs;
+}
+function computeAllErrors(){
+  var all = {};
+  [1,2,3,4].forEach(function(s){ Object.assign(all, computeStepErrors(s)); });
+  return all;
+}
+
+/* ---------------- Mutators ---------------- */
+var App = {};
+App.setCompanyField = function(key, val){ state.appState.companyInfo[key]=val; saveDraft(true); };
+App.setCompanyFieldRerender = function(key, val){
+  App.setCompanyField(key,val);
+  if(key==='businessActivity' && OFFSITE_AUTO_YES_ACTIVITIES.indexOf(val)!==-1){
+    var off = state.appState.offsiteOperations;
+    off.coverRequired = 'yes';
+    if(off.entries.length===0) off.entries.push(createEmptyOffsiteEntry('1'));
+    saveDraft(true);
+  }
+  renderMain();
+};
+App.setLocationField = function(idx, key, val){ state.appState.locations[idx][key]=val; saveDraft(true); };
+App.setLocationFieldRerender = function(idx, key, val){ App.setLocationField(idx,key,val); renderMain(); };
+App.setLocationMoney = function(idx, key, raw){ state.appState.locations[idx][key]=fmtMoney(raw); saveDraft(true); renderMain(); };
+App.setNumberOfLocations = function(n){
+  n = parseInt(n,10);
+  var list = state.appState.locations.slice();
+  if(n>list.length){ for(var i=list.length;i<n;i++) list.push(createEmptyLocation(String(i+1))); }
+  else if(n<list.length){ list = list.slice(0,n); }
+  state.appState.numberOfLocations = n;
+  state.appState.locations = list;
+  saveDraft(true);
+  renderMain();
+};
+App.removeLocation = function(idx){
+  state.appState.locations = state.appState.locations.filter(function(_,i){ return i!==idx; });
+  state.appState.numberOfLocations = state.appState.locations.length;
+  saveDraft(true);
+  renderMain();
+};
+App.setOffsiteCoverRequired = function(val){
+  state.appState.offsiteOperations.coverRequired = val;
+  if(val==='yes' && state.appState.offsiteOperations.entries.length===0){
+    state.appState.offsiteOperations.entries.push(createEmptyOffsiteEntry('1'));
+  }
+  saveDraft(true);
+  renderMain();
+};
+App.setOffsiteEntryField = function(idx, key, val){ state.appState.offsiteOperations.entries[idx][key]=val; saveDraft(true); };
+App.setOffsiteEntryFieldRerender = function(idx, key, val){ App.setOffsiteEntryField(idx,key,val); renderMain(); };
+App.setOffsiteEntryMoney = function(idx, key, raw){ state.appState.offsiteOperations.entries[idx][key]=fmtMoney(raw); saveDraft(true); renderMain(); };
+App.setOffsiteEntryCoverType = function(idx, val){ state.appState.offsiteOperations.entries[idx].coverType=val; saveDraft(true); renderMain(); };
+App.toggleProjectDetails = function(idx){
+  state._collapsedProjectPanels = state._collapsedProjectPanels || {};
+  state._collapsedProjectPanels[idx] = !state._collapsedProjectPanels[idx];
+  renderMain();
+};
+App.addOffsiteEntry = function(){
+  var entries = state.appState.offsiteOperations.entries;
+  entries.push(createEmptyOffsiteEntry(String(entries.length+1)));
+  saveDraft(true);
+  renderMain();
+};
+App.removeOffsiteEntry = function(idx){
+  state.appState.offsiteOperations.entries = state.appState.offsiteOperations.entries.filter(function(_,i){ return i!==idx; });
+  saveDraft(true);
+  renderMain();
+};
+App.toggleExtension = function(key){ var e=state.appState.extensions; e[key]=!e[key]; saveDraft(true); renderMain(); };
+App.setSignatureName = function(v){ state.signatureName=v; };
+App.setSignatureNameRerender = function(v){ state.signatureName=v; renderMain(); };
+App.setSignatureDate = function(v){ state.signatureDate=v; renderMain(); };
+App.setAgreement = function(v){ state._agreement=v; renderMain(); };
+
+App.readFileAsDataUrl = function(file, cb){
+  var reader = new FileReader();
+  reader.onload = function(ev){ cb(ev.target.result); };
+  reader.readAsDataURL(file);
+};
+App.handleLicenseFiles = function(files){
+  var file = files[0];
+  if(!file) return;
+  App.readFileAsDataUrl(file, function(dataUrl){
+    state.appState.attachments.tradeLicense = { name:file.name, size:file.size, type:file.type, dataUrl:dataUrl };
+    saveDraft(true);
+    renderMain();
+  });
+};
+App.handlePhotoFiles = function(files){
+  var arr = Array.prototype.slice.call(files);
+  var results = new Array(arr.length);
+  var remaining = arr.length;
+  if(!remaining) return;
+  arr.forEach(function(file, i){
+    App.readFileAsDataUrl(file, function(dataUrl){
+      results[i] = { name:file.name, size:file.size, type:file.type, dataUrl:dataUrl };
+      remaining--;
+      if(remaining===0){
+        state.appState.attachments.photos = state.appState.attachments.photos.concat(results);
+        saveDraft(true);
+        renderMain();
+      }
+    });
+  });
+};
+App.onLicenseInput = function(input){ App.handleLicenseFiles(input.files); };
+App.onPhotosInput = function(input){ App.handlePhotoFiles(input.files); };
+App.removeLicense = function(evt){ evt.stopPropagation(); state.appState.attachments.tradeLicense=null; saveDraft(true); renderMain(); };
+App.removePhoto = function(idx, evt){ evt.stopPropagation(); state.appState.attachments.photos.splice(idx,1); saveDraft(true); renderMain(); };
+App.dragOver = function(evt, zone){ evt.preventDefault(); document.getElementById(zone).classList.add('drag'); };
+App.dragLeave = function(zone){ document.getElementById(zone).classList.remove('drag'); };
+App.drop = function(evt, zone, type){
+  evt.preventDefault();
+  document.getElementById(zone).classList.remove('drag');
+  var files = evt.dataTransfer.files;
+  if(type==='license') App.handleLicenseFiles(files); else App.handlePhotoFiles(files);
+};
+
+App.nextStep = function(){
+  var stepErrs = computeStepErrors(state.currentStep);
+  if(Object.keys(stepErrs).length>0){
+    state.errors = stepErrs;
+    showToast('Please fill all mandatory fields to proceed.', 'error');
+    renderMain();
+    window.scrollTo({top:0, behavior:'smooth'});
+    return;
+  }
+  state.errors = {};
+  if(state.currentStep<STEPS.length){ state.currentStep++; renderMain(); window.scrollTo({top:0, behavior:'smooth'}); }
+};
+App.prevStep = function(){ if(state.currentStep>1){ state.currentStep--; renderMain(); window.scrollTo({top:0, behavior:'smooth'}); } };
+App.goToStep = function(n){ if(n<state.currentStep){ state.currentStep=n; renderMain(); window.scrollTo({top:0,behavior:'smooth'}); } };
+App.saveDraft = function(){ saveDraft(false); };
+
+App.resetForm = function(){
+  if(window.confirm('Are you sure you want to start a completely fresh proposal? Current unsaved fields will be reset.')){
+    state.appState = createEmptyApplication();
+    state.currentStep = 1;
+    state.signatureName = '';
+    state._agreement = false;
+    state.errors = {};
+    state.showSuccessState = false;
+    state.viewingProposal = null;
+    localStorage.removeItem(STORAGE_DRAFT);
+    showToast('Application reset to blank template.', 'info');
+    renderMain();
+  }
+};
+
+App.submitProposal = function(){
+  var allErrors = computeAllErrors();
+  if(!state.appState.attachments.tradeLicense) allErrors.tradeLicense='Uploading a Trade License copy is mandatory to complete the proposal.';
+  if(Object.keys(allErrors).length>0){
+    state.errors = allErrors;
+    showToast('Proposal form contains validation errors.', 'error');
+    renderMain();
+    window.scrollTo({top:0, behavior:'smooth'});
+    return;
+  }
+  var submitted = JSON.parse(JSON.stringify(state.appState));
+  submitted.status = 'submitted';
+  submitted.submittedAt = new Date().toLocaleString('en-US', {dateStyle:'medium', timeStyle:'short'});
+  submitted.signatureName = state.signatureName;
+  submitted.signatureDate = state.signatureDate;
+  state.submittedProposals = [submitted].concat(state.submittedProposals);
+  localStorage.setItem(STORAGE_SUBMITTED, JSON.stringify(state.submittedProposals));
+  state.appState = createEmptyApplication();
+  state.currentStep = 1;
+  state.signatureName = '';
+  state._agreement = false;
+  localStorage.removeItem(STORAGE_DRAFT);
+  state.viewingProposal = submitted;
+  state.showSuccessState = true;
+  showToast('Application Proposal Submitted Successfully!', 'success');
+  renderMain();
+};
+App.closeProposalView = function(){ state.viewingProposal=null; state.showSuccessState=false; renderMain(); };
+App.printPage = function(){ window.print(); };
+
+App.loadDemoData = function(){
+  state.appState = {
+    id: uid(),
+    companyInfo:{ companyName:'Mubadala Logistics Services LLC', tradeLicenseNumber:'TL-88214-X', businessActivity:'Third-Party Logistics (3PL)', businessDescription:'Commercial warehouse storage, sorting, local delivery, cargo dispatch, and supply chain consultancy.', contactPerson:'Sultan Al Qasimi', contactEmail:'sultan@mubadalalogistics.ae', contactPhone:'+971 52 984 3321' },
+    numberOfLocations:2,
+    locations:[
+      { id:'1', address:'Plot 42A, Jebel Ali Industrial Area 1, JAFZA, Dubai, UAE', limitOfIndemnity:'5,000,000', occupancy:'Office - Warehouse Location', claimsHistoryLast5Years:'no', claimsDetails:'' },
+      { id:'2', address:'Warehouse B2, Mussafah M-12, Abu Dhabi, UAE', limitOfIndemnity:'2,500,000', occupancy:'Warehouse - Direct Referral', claimsHistoryLast5Years:'yes', claimsDetails:'Oct 2023: Minor structural water leakage damaged client pallets. Settled amicably with underwriter for AED 32,000. Comprehensive roof seal completed Nov 2023.' }
+    ],
+    offsiteOperations:{ coverRequired:'yes', entries:[
+      { id:'1', coverType:'annual', location:'Contracted client depots across UAE and GCC states', limitOfIndemnity:'5,000,000', geographicalLimit:'GCC', manualWorkEmployees:'yes', annualTurnover:'12,500,000', turnoverSplitDetails:'UAE: AED 10,000,000 | Saudi Arabia: AED 2,000,000 | Oman: AED 500,000', estimatedProjects:'14', numberOfEmployees:'38', subcontractedWork:'yes', subcontractedServices:'Specialized cargo forklift rigging & electrical safety retrofits', subcontractedPercentage:'25', projectTitle:'', projectContractValue:'', projectLiabilityLimit:'', projectDuration:'', projectLocation:'', projectScopeOfWork:'' },
+      { id:'2', coverType:'project', location:'', limitOfIndemnity:'', geographicalLimit:'UAE', manualWorkEmployees:'yes', annualTurnover:'', turnoverSplitDetails:'', estimatedProjects:'', numberOfEmployees:'', subcontractedWork:'no', subcontractedServices:'', subcontractedPercentage:'', projectTitle:'Dubai South Logistics Hub Fit-Out', projectContractValue:'2,000,000', projectLiabilityLimit:'2,000,000', projectDuration:'6 to 12 months', projectLocation:'Dubai South, UAE', projectScopeOfWork:'Warehouse racking installation, forklift rigging, and electrical safety retrofit works under a single fixed-term client contract.' }
+    ] },
+    extensions:{ propertyBeingWorkedUpon:true, propertyUnderCareCustodyControl:true, principalsExistingProperty:false },
+    attachments:{ tradeLicense:{ name:'Trade_License_Mubadala_Logistics_2026.pdf', size:1424520, type:'application/pdf' }, photos:[] },
+    status:'draft'
+  };
+  state.signatureName = 'Sultan Al Qasimi';
+  state._agreement = true;
+  state.currentStep = STEPS.length;
+  state.errors = {};
+  saveDraft(true);
+  showToast('Sample demonstration data populated.', 'success');
+  renderMain();
+};
+
+/* ---------------- Renderers ---------------- */
+function fieldError(key){ return state.errors[key] ? '<p class="pla-err-msg">'+esc(state.errors[key])+'</p>' : ''; }
+function errClass(key){ return state.errors[key] ? 'err' : ''; }
+
+function renderStepCompany(){
+  var d = state.appState.companyInfo;
+  var activityOpts = '<option value="" disabled '+(d.businessActivity?'':'selected')+'>Select business activity...</option>' +
+    NATURE_OF_BUSINESS_OPTIONS.map(function(o){ return '<option value="'+esc(o)+'" '+(d.businessActivity===o?'selected':'')+'>'+esc(o)+'</option>'; }).join('');
+  return '' +
+  '<div class="pla-section-head"><h2>'+icon('shield')+'Company Profile</h2><p>Provide your official registered corporate details to begin your Public Liability Insurance application.</p></div>' +
+  '<div class="pla-grid2">' +
+    '<div class="pla-field"><label class="pla-label">'+icon('building')+'Registered Company Name <span class="pla-req">*</span></label>'+
+      '<input class="pla-input '+errClass('companyName')+'" type="text" placeholder="e.g. Acme Gulf Trading LLC" value="'+esc(d.companyName)+'" oninput="App.setCompanyField(\'companyName\', this.value)">'+fieldError('companyName')+'</div>'+
+    '<div class="pla-field"><label class="pla-label">'+icon('file')+'Trade License Number <span class="pla-req">*</span></label>'+
+      '<input class="pla-input '+errClass('tradeLicenseNumber')+'" type="text" placeholder="e.g. TL-123456-D" value="'+esc(d.tradeLicenseNumber)+'" oninput="App.setCompanyField(\'tradeLicenseNumber\', this.value)">'+fieldError('tradeLicenseNumber')+'</div>'+
+    '<div class="pla-field span2"><label class="pla-label">'+icon('briefcase')+'Business Activity <span class="pla-req">*</span></label>'+
+      '<select class="pla-select '+errClass('businessActivity')+'" onchange="App.setCompanyFieldRerender(\'businessActivity\', this.value)">'+activityOpts+'</select>'+fieldError('businessActivity')+
+      '<p class="pla-hint">Select the option that most closely matches your registered trade license activity.</p></div>'+
+    '<div class="pla-field"><label class="pla-label">'+icon('users')+'Primary Contact Person <span class="pla-req">*</span></label>'+
+      '<input class="pla-input '+errClass('contactPerson')+'" type="text" placeholder="e.g. Sarah Connor" value="'+esc(d.contactPerson)+'" oninput="App.setCompanyField(\'contactPerson\', this.value)">'+fieldError('contactPerson')+'</div>'+
+    '<div class="pla-field"><label class="pla-label">Contact Email Address <span class="pla-req">*</span></label>'+
+      '<input class="pla-input '+errClass('contactEmail')+'" type="email" placeholder="e.g. contact@acmegulf.ae" value="'+esc(d.contactEmail)+'" oninput="App.setCompanyField(\'contactEmail\', this.value)">'+fieldError('contactEmail')+'</div>'+
+    '<div class="pla-field"><label class="pla-label">Contact Phone Number <span class="pla-req">*</span></label>'+
+      '<input class="pla-input '+errClass('contactPhone')+'" type="tel" placeholder="e.g. +971 50 123 4567" value="'+esc(d.contactPhone)+'" oninput="App.setCompanyField(\'contactPhone\', this.value)">'+fieldError('contactPhone')+'</div>'+
+    '<div class="pla-field span2"><label class="pla-label">Brief Business Operations Description <span class="pla-req">*</span></label>'+
+      '<textarea class="pla-textarea '+errClass('businessDescription')+'" rows="3" placeholder="Describe your core commercial activities, services, products sold, and general operations..." oninput="App.setCompanyField(\'businessDescription\', this.value)">'+esc(d.businessDescription)+'</textarea>'+fieldError('businessDescription')+
+      '<p class="pla-hint">This information assists underwriter verification of classification codes and risks.</p></div>'+
+  '</div>';
+}
+
+function renderLocationCard(loc, idx, total){
+  var occOpts = OCCUPANCY_OPTIONS.map(function(o){ return '<option value="'+esc(o)+'" '+(loc.occupancy===o?'selected':'')+'>'+esc(o)+'</option>'; }).join('');
+  var notice = '';
+  if(loc.occupancy==='Warehouse - Direct Referral') notice = '<div class="pla-note amber">'+icon('alert')+'<span><strong>Direct Referral Required:</strong> Warehouses have unique liability scopes. Our underwriters will contact you for a direct physical inspection.</span></div>';
+  else if(loc.occupancy==='Retail Shop (Excludes Jewelry)') notice = '<div class="pla-note slate"><span><strong>Note:</strong> Coverage explicitly excludes operations involving precious metal jewelry, watches, gems or coins.</span></div>';
+  else if(loc.occupancy==='Restaurant - Alcohol, Shisha, BBQ') notice = '<div class="pla-note blue"><span><strong>Note:</strong> Premium considers liability risks associated with alcohol, open BBQ fires, and waterpipe (shisha) smoking.</span></div>';
+
+  var othersField = loc.occupancy==='Others' ? (
+    '<div class="pla-field span2"><label class="pla-label">Specify \'Others\' Occupancy Details <span class="pla-req">*</span></label>'+
+    '<input class="pla-input '+errClass('loc_'+idx+'_other')+'" type="text" placeholder="e.g. Art Gallery, Private Gym, Photography Studio" value="'+esc(loc.occupancyOtherDetails||'')+'" oninput="App.setLocationField('+idx+', \'occupancyOtherDetails\', this.value)">'+fieldError('loc_'+idx+'_other')+'</div>'
+  ) : '';
+
+  var claimsDetails = loc.claimsHistoryLast5Years==='yes' ? (
+    '<div class="pla-field span2" style="border-top:1px solid var(--border);padding-top:12px;margin-top:4px;">'+
+      '<label class="pla-label">Provide Claims details (Dates, nature, resolution, amounts) <span class="pla-req">*</span></label>'+
+      '<textarea class="pla-textarea '+errClass('loc_'+idx+'_claims')+'" rows="2" placeholder="e.g. Jan 2024: Customer slip and fall settled for AED 15,000." oninput="App.setLocationField('+idx+', \'claimsDetails\', this.value)">'+esc(loc.claimsDetails||'')+'</textarea>'+fieldError('loc_'+idx+'_claims')+
+    '</div>'
+  ) : '';
+
+  return '<div class="pla-loc-card"><div class="pla-loc-head"><span class="pla-loc-title"><span class="pla-loc-num">'+(idx+1)+'</span>Location Details</span>'+
+    (total>1 ? '<button type="button" class="pla-loc-del" onclick="App.removeLocation('+idx+')">'+icon('trash')+'Delete</button>' : '') +
+    '</div><div class="pla-loc-body">'+
+    '<div class="pla-field span2"><label class="pla-label">Full Physical Address <span class="pla-req">*</span></label>'+
+      '<input class="pla-input '+errClass('loc_'+idx+'_address')+'" type="text" placeholder="e.g. Unit 401, Level 4, Business Tower, Downtown, Dubai, UAE" value="'+esc(loc.address)+'" oninput="App.setLocationField('+idx+', \'address\', this.value)">'+fieldError('loc_'+idx+'_address')+'</div>'+
+    '<div class="pla-field"><label class="pla-label">'+icon('coins')+'Limit of Indemnity Required <span class="pla-req">*</span></label>'+
+      '<div class="pla-currency"><span>AED</span><input class="pla-input '+errClass('loc_'+idx+'_limit')+'" type="text" placeholder="e.g. 5,000,000" value="'+esc(loc.limitOfIndemnity)+'" oninput="App.setLocationMoney('+idx+', \'limitOfIndemnity\', this.value)"></div>'+fieldError('loc_'+idx+'_limit')+
+      '<p class="pla-hint">Typical limits: 1,000,000 to 10,000,000 AED per location</p></div>'+
+    '<div class="pla-field"><label class="pla-label">Location Occupancy Type <span class="pla-req">*</span></label>'+
+      '<select class="pla-select" onchange="App.setLocationFieldRerender('+idx+', \'occupancy\', this.value)">'+occOpts+'</select>'+notice+'</div>'+
+    othersField +
+    '<div class="pla-field span2 pla-panel" style="margin-top:4px;">'+
+      '<div class="pla-panel-row"><div><div class="pla-panel-title">Claims History (Last 5 Years) <span class="pla-req">*</span></div>'+
+      '<div class="pla-panel-sub">Has this location experienced any liability claims or incidents in the last 5 years?</div></div>'+
+      '<div class="pla-radio-group">'+
+        '<label class="pla-radio"><input type="radio" name="claims-'+idx+'" '+(loc.claimsHistoryLast5Years==='no'?'checked':'')+' onchange="App.setLocationFieldRerender('+idx+', \'claimsHistoryLast5Years\', \'no\')"> No</label>'+
+        '<label class="pla-radio"><input type="radio" name="claims-'+idx+'" '+(loc.claimsHistoryLast5Years==='yes'?'checked':'')+' onchange="App.setLocationFieldRerender('+idx+', \'claimsHistoryLast5Years\', \'yes\')"> Yes</label>'+
+      '</div></div>'+
+      claimsDetails +
+    '</div>'+
+  '</div></div>';
+}
+
+function renderStepLocations(){
+  var a = state.appState;
+  var opts = '';
+  for(var n=1;n<=10;n++) opts += '<option value="'+n+'" '+(a.numberOfLocations===n?'selected':'')+'>'+n+(n===1?' Location':' Locations')+'</option>';
+  var cards = a.locations.map(function(loc, idx){ return renderLocationCard(loc, idx, a.numberOfLocations); }).join('');
+  var addBtn = a.numberOfLocations<10 ? '<div class="pla-add-loc"><button type="button" onclick="App.setNumberOfLocations('+(a.numberOfLocations+1)+')">'+icon('plus')+'Add Another Business Location</button></div>' : '';
+  return '' +
+  '<div class="pla-section-head"><h2>'+icon('mapPin')+'Location Risk Assessment</h2><p>Specify risk details and limits required for each business location to be covered under the Public Liability policy.</p></div>' +
+  '<div class="pla-panel" style="margin-bottom:24px;"><div class="pla-panel-row"><div><div class="pla-panel-title">Number of Locations to Cover</div><div class="pla-panel-sub">Select how many physical corporate addresses require direct coverage.</div></div>'+
+    '<select class="pla-select" style="max-width:220px;" onchange="App.setNumberOfLocations(this.value)">'+opts+'</select></div></div>' +
+  cards + addBtn;
+}
+
+function renderOffsiteEntryCard(o, idx, total){
+  var coverTypeRow = '<div class="pla-covertype-row">' +
+    '<label class="pla-covertype-opt'+(o.coverType==='annual'?' selected':'')+'"><input type="radio" name="covertype-'+idx+'" '+(o.coverType==='annual'?'checked':'')+' onchange="App.setOffsiteEntryCoverType('+idx+', \'annual\')"> Annual Cover</label>'+
+    '<label class="pla-covertype-opt'+(o.coverType==='project'?' selected':'')+'"><input type="radio" name="covertype-'+idx+'" '+(o.coverType==='project'?'checked':'')+' onchange="App.setOffsiteEntryCoverType('+idx+', \'project\')"> Project Specific Cover</label>'+
+  '</div>';
+
+  var head = '<div class="pla-loc-head"><span class="pla-loc-title"><span class="pla-loc-num">'+(idx+1)+'</span>Off-site Operation Entry</span>'+
+    (total>1 ? '<button type="button" class="pla-loc-del" onclick="App.removeOffsiteEntry('+idx+')">'+icon('trash')+'Delete</button>' : '') +
+    '</div>';
+
+  if(o.coverType==='project'){
+    var collapsed = !!(state._collapsedProjectPanels && state._collapsedProjectPanels[idx]);
+    var body = '<div class="pla-loc-body" style="display:block;">' +
+      coverTypeRow +
+      '<div class="pla-project-panel">' +
+        '<div class="pla-project-head'+(collapsed?' collapsed':'')+'" onclick="App.toggleProjectDetails('+idx+')">Project Specific Details'+icon('chevronDown')+'</div>'+
+        (collapsed ? '' : '<div class="pla-project-body">' +
+          '<div class="pla-field"><label class="pla-label">Title of Contract <span class="pla-req">*</span></label>'+
+            '<input class="pla-input '+errClass('offsite_'+idx+'_ptitle')+'" type="text" placeholder="e.g. Warehouse Fit-Out Contract" value="'+esc(o.projectTitle||'')+'" oninput="App.setOffsiteEntryField('+idx+', \'projectTitle\', this.value)">'+fieldError('offsite_'+idx+'_ptitle')+'</div>'+
+          '<div class="pla-field"><label class="pla-label">Total Contract Value <span class="pla-hint" style="text-transform:none;">(Optional)</span></label>'+
+            '<div class="pla-currency"><span>AED</span><input class="pla-input" type="text" placeholder="e.g. 5,000,000" value="'+esc(o.projectContractValue||'')+'" oninput="App.setOffsiteEntryMoney('+idx+', \'projectContractValue\', this.value)"></div></div>'+
+          '<div class="pla-field"><label class="pla-label">Third Party Liability Limit <span class="pla-req">*</span></label>'+
+            '<div class="pla-currency"><span>AED</span><input class="pla-input '+errClass('offsite_'+idx+'_pliab')+'" type="text" placeholder="e.g. 2,000,000" value="'+esc(o.projectLiabilityLimit||'')+'" oninput="App.setOffsiteEntryMoney('+idx+', \'projectLiabilityLimit\', this.value)"></div>'+fieldError('offsite_'+idx+'_pliab')+'</div>'+
+          '<div class="pla-field"><label class="pla-label">Project Duration <span class="pla-hint" style="text-transform:none;">(Optional)</span></label>'+
+            '<select class="pla-select" onchange="App.setOffsiteEntryFieldRerender('+idx+', \'projectDuration\', this.value)"><option value="" '+(o.projectDuration?'':'selected')+' disabled>Select duration...</option>'+
+            PROJECT_DURATION_OPTIONS.map(function(d){ return '<option value="'+esc(d)+'" '+(o.projectDuration===d?'selected':'')+'>'+esc(d)+'</option>'; }).join('') + '</select></div>'+
+          '<div class="pla-field"><label class="pla-label">Project Location <span class="pla-req">*</span></label>'+
+            '<input class="pla-input '+errClass('offsite_'+idx+'_ploc')+'" type="text" placeholder="e.g. Dubai South, UAE" value="'+esc(o.projectLocation||'')+'" oninput="App.setOffsiteEntryField('+idx+', \'projectLocation\', this.value)">'+fieldError('offsite_'+idx+'_ploc')+'</div>'+
+          '<div class="pla-field"><label class="pla-label">Exact Scope of Work (Full Details) <span class="pla-req">*</span></label>'+
+            '<textarea class="pla-textarea '+errClass('offsite_'+idx+'_pscope')+'" rows="2" placeholder="Provide detailed description of all activities to be carried out." oninput="App.setOffsiteEntryField('+idx+', \'projectScopeOfWork\', this.value)">'+esc(o.projectScopeOfWork||'')+'</textarea>'+fieldError('offsite_'+idx+'_pscope')+
+            '<p class="pla-hint">Provide detailed description of all activities to be carried out.</p></div>'+
+        '</div>') +
+      '</div>' +
+    '</div>';
+    return '<div class="pla-loc-card">'+head+body+'</div>';
+  }
+
+  var geoOpts = GEOGRAPHICAL_LIMITS.map(function(g){ return '<option value="'+esc(g)+'" '+(o.geographicalLimit===g?'selected':'')+'>'+esc(g)+'</option>'; }).join('');
+  var splitField = o.geographicalLimit && o.geographicalLimit!=='UAE' ? (
+    '<div class="pla-field span2"><label class="pla-label">Annual Turnover Split per Country <span class="pla-hint" style="text-transform:none;">(Optional)</span></label>'+
+    '<textarea class="pla-textarea" rows="2" placeholder="e.g. UAE: AED 3,000,000 | Saudi Arabia: AED 1,500,000 | Oman: AED 500,000" oninput="App.setOffsiteEntryField('+idx+', \'turnoverSplitDetails\', this.value)">'+esc(o.turnoverSplitDetails||'')+'</textarea></div>'
+  ) : '';
+  var subDetails = o.subcontractedWork==='yes' ? (
+    '<div class="pla-field span2" style="background:var(--surface);border:1px solid var(--border-soft);border-radius:12px;padding:14px;margin-top:6px;">'+
+    '<div class="pla-grid2">'+
+    '<div class="pla-field"><label class="pla-label">Subcontracted Services <span class="pla-hint" style="text-transform:none;">(Optional)</span></label>'+
+    '<input class="pla-input" type="text" placeholder="e.g. Electrical wiring, plumbing, HVAC install" value="'+esc(o.subcontractedServices||'')+'" oninput="App.setOffsiteEntryField('+idx+', \'subcontractedServices\', this.value)"></div>'+
+    '<div class="pla-field"><label class="pla-label">% of Subcontracted Work on Turnover <span class="pla-hint" style="text-transform:none;">(Optional)</span></label>'+
+    '<input class="pla-input" type="number" min="0" max="100" placeholder="e.g. 15" value="'+esc(o.subcontractedPercentage||'')+'" oninput="App.setOffsiteEntryField('+idx+', \'subcontractedPercentage\', this.value)"></div>'+
+    '</div></div>'
+  ) : '';
+
+  return '<div class="pla-loc-card">'+head+'<div class="pla-loc-body" style="display:block;">' +
+    coverTypeRow +
+    '<div class="pla-grid2">' +
+    '<div class="pla-field span2"><label class="pla-label">Off-site Operations Location <span class="pla-req">*</span></label>'+
+      '<input class="pla-input '+errClass('offsite_'+idx+'_loc')+'" type="text" placeholder="e.g. Client sites across UAE, or dynamic projects" value="'+esc(o.location||'')+'" oninput="App.setOffsiteEntryField('+idx+', \'location\', this.value)">'+fieldError('offsite_'+idx+'_loc')+'</div>'+
+    '<div class="pla-field"><label class="pla-label">'+icon('coins')+'Off-site Location Limit of Indemnity Required <span class="pla-req">*</span></label>'+
+      '<div class="pla-currency"><span>AED</span><input class="pla-input '+errClass('offsite_'+idx+'_limit')+'" type="text" placeholder="e.g. 10,000,000" value="'+esc(o.limitOfIndemnity||'')+'" oninput="App.setOffsiteEntryMoney('+idx+', \'limitOfIndemnity\', this.value)"></div>'+fieldError('offsite_'+idx+'_limit')+'</div>'+
+    '<div class="pla-field"><label class="pla-label">'+icon('map')+'Geographical Limit Required <span class="pla-req">*</span></label>'+
+      '<select class="pla-select" onchange="App.setOffsiteEntryFieldRerender('+idx+', \'geographicalLimit\', this.value)">'+geoOpts+'</select></div>'+
+    '<div class="pla-field"><label class="pla-label">Employees Doing Manual Work? <span class="pla-req">*</span></label>'+
+      '<div class="pla-radio-group" style="padding:6px 0;">'+
+      '<label class="pla-radio"><input type="radio" name="manualWork-'+idx+'" '+(o.manualWorkEmployees==='no'?'checked':'')+' onchange="App.setOffsiteEntryFieldRerender('+idx+', \'manualWorkEmployees\', \'no\')"> No</label>'+
+      '<label class="pla-radio"><input type="radio" name="manualWork-'+idx+'" '+(o.manualWorkEmployees==='yes'?'checked':'')+' onchange="App.setOffsiteEntryFieldRerender('+idx+', \'manualWorkEmployees\', \'yes\')"> Yes</label>'+
+      '</div>'+ (o.manualWorkEmployees==='yes' ? '<p class="pla-hint" style="color:var(--green);">Note: Premium will adjust for manual risk exposures such as heights, tools, or machinery.</p>' : '') + '</div>'+
+    '<div class="pla-field"><label class="pla-label">Annual Turnover <span class="pla-hint" style="text-transform:none;">(Optional)</span></label>'+
+      '<div class="pla-currency"><span>AED</span><input class="pla-input" type="text" placeholder="Estimated yearly sales / revenue" value="'+esc(o.annualTurnover||'')+'" oninput="App.setOffsiteEntryMoney('+idx+', \'annualTurnover\', this.value)"></div></div>'+
+    splitField +
+    '<div class="pla-field"><label class="pla-label">Estimated Number of Projects / Contracts <span class="pla-req">*</span></label>'+
+      '<input class="pla-input '+errClass('offsite_'+idx+'_projects')+'" type="number" min="0" placeholder="e.g. 15" value="'+esc(o.estimatedProjects||'')+'" oninput="App.setOffsiteEntryField('+idx+', \'estimatedProjects\', this.value)">'+fieldError('offsite_'+idx+'_projects')+'</div>'+
+    '<div class="pla-field"><label class="pla-label">'+icon('users')+'Total Number of Employees <span class="pla-req">*</span></label>'+
+      '<input class="pla-input '+errClass('offsite_'+idx+'_employees')+'" type="number" min="1" placeholder="e.g. 45" value="'+esc(o.numberOfEmployees||'')+'" oninput="App.setOffsiteEntryField('+idx+', \'numberOfEmployees\', this.value)">'+fieldError('offsite_'+idx+'_employees')+'</div>'+
+    '<div class="pla-field span2" style="border-top:1px solid var(--border-soft);padding-top:14px;margin-top:4px;">'+
+      '<div class="pla-panel-row"><div><div class="pla-panel-title" style="font-size:12px;">Is any of this off-site work subcontracted?</div><div class="pla-panel-sub">Select yes if you assign works to independent third-party vendors or freelancers.</div></div>'+
+      '<div class="pla-radio-group">'+
+      '<label class="pla-radio"><input type="radio" name="subcontracted-'+idx+'" '+(o.subcontractedWork==='no'?'checked':'')+' onchange="App.setOffsiteEntryFieldRerender('+idx+', \'subcontractedWork\', \'no\')"> No</label>'+
+      '<label class="pla-radio"><input type="radio" name="subcontracted-'+idx+'" '+(o.subcontractedWork==='yes'?'checked':'')+' onchange="App.setOffsiteEntryFieldRerender('+idx+', \'subcontractedWork\', \'yes\')"> Yes</label>'+
+      '</div></div>'+ subDetails + '</div>' +
+  '</div></div></div>';
+}
+
+function renderStepOffsite(){
+  var o = state.appState.offsiteOperations, e = state.appState.extensions;
+  var dynSection = '';
+  if(o.coverRequired==='yes'){
+    function extCard(key, letter, title, desc){
+      var checked = e[key];
+      return '<div class="pla-ext-card '+(checked?'checked':'')+'" onclick="App.toggleExtension(\''+key+'\')">'+
+        '<div class="pla-ext-box '+(checked?'checked':'')+'">'+(checked?icon('check'):'')+'</div>'+
+        '<div><span class="pla-ext-title">'+letter+'. '+title+'</span><p class="pla-ext-desc">'+desc+'</p></div></div>';
+    }
+
+    dynSection = '<div style="margin-top:16px;">' +
+      o.entries.map(function(entry, idx){ return renderOffsiteEntryCard(entry, idx, o.entries.length); }).join('') +
+      '<div class="pla-add-loc"><button type="button" onclick="App.addOffsiteEntry()">'+icon('plus')+'Add Another Off-site Operation</button></div>' +
+    '</div>' +
+    '<div style="border-top:1px solid var(--border-soft);padding-top:20px;margin-top:28px;">'+
+      '<h3 class="pla-ext-heading">'+icon('shield')+'Liability Extensions Required</h3>'+
+      '<p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;">Select additional coverage extensions for specialized assets or principal protection.</p>'+
+      extCard('propertyBeingWorkedUpon','A','Property being worked upon / Contract works and materials','Covers liability for physical damage caused directly to third-party contract materials or structural projects on which your employees are actively performing labor.') +
+      extCard('propertyUnderCareCustodyControl','B','Property under care, custody and control','Extends coverage to physical damage or loss occurring to third-party assets left directly under your custody or supervision for maintenance, holding, or storage.') +
+      extCard('principalsExistingProperty','C','Principals existing and surrounding property','Protects against accidental damages to preexisting structural facilities or adjacent lands owned by the client/principal on whose site your company is working.') +
+    '</div>';
+  }
+
+  return '' +
+  '<div class="pla-section-head"><h2>'+icon('briefcase')+'Off-Site Operations</h2><p>Indicate if you perform third-party site projects, installations, deliveries, or contract work outside your registered premises.</p></div>' +
+  '<div class="pla-panel"><div class="pla-panel-row"><div><div class="pla-panel-title">Do you have operations outside the registered address you want to cover?</div>'+
+    '<div class="pla-panel-sub">Includes off-site service calls, client office visits, installations, and subcontracted projects.</div></div>'+
+    '<div class="pla-radio-group">'+
+    '<label class="pla-radio"><input type="radio" name="offsiteCover" '+(o.coverRequired==='no'?'checked':'')+' onchange="App.setOffsiteCoverRequired(\'no\')"> No</label>'+
+    '<label class="pla-radio"><input type="radio" name="offsiteCover" '+(o.coverRequired==='yes'?'checked':'')+' onchange="App.setOffsiteCoverRequired(\'yes\')"> Yes</label>'+
+    '</div></div></div>' +
+  dynSection;
+}
+
+function renderStepUpload(){
+  var att = state.appState.attachments;
+  var lic = att.tradeLicense;
+  var licClass = lic ? 'has-file' : (state.errors.tradeLicense ? 'err' : '');
+  var licInner = lic ? (
+    '<div class="pla-dz-icon done">'+icon('file')+'</div>'+
+    '<div><p style="font-size:13px;font-weight:600;margin:0;">'+esc(lic.name)+'</p><p style="font-size:11px;color:var(--text-faint);margin:2px 0 0;">'+formatFileSize(lic.size)+'</p></div>'+
+    '<button type="button" class="pla-remove-file" onclick="App.removeLicense(event)">'+icon('trash')+'Remove file</button>'
+  ) : (
+    '<div class="pla-dz-icon">'+icon('upload')+'</div>'+
+    '<div><p style="font-size:13px;font-weight:600;margin:0;">Drag & drop Trade License</p><p style="font-size:11px;color:var(--text-faint);margin:2px 0 0;">or click to browse local files</p></div>'+
+    '<p class="pla-hint">Supports PDF, PNG, JPG (Max 10MB)</p>'
+  );
+  var photos = att.photos.map(function(p, idx){
+    var isImage = p.type && p.type.indexOf('image/')===0;
+    var body = (isImage && p.dataUrl) ? '<img src="'+p.dataUrl+'" alt="'+esc(p.name)+'">' : '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--text-faint);gap:4px;padding:6px;">'+icon('file')+'<span style="font-size:9.5px;text-align:center;word-break:break-all;">'+esc(p.name)+'</span></div>';
+    return '<div class="pla-photo-tile">'+body+
+      '<div class="pla-photo-overlay"><button type="button" class="pla-photo-del" onclick="App.removePhoto('+idx+', event)">'+icon('trash')+'</button>'+
+      '<div class="name">'+esc(p.name)+'</div></div></div>';
+  }).join('');
+
+  return '' +
+  '<div class="pla-section-head"><h2>'+icon('upload')+'Document &amp; Asset Uploads</h2><p>Attach a copy of your valid Trade License and other relevant documents to expedite insurance underwriter validation.</p></div>' +
+  '<div class="pla-grid2">' +
+    '<div class="pla-field"><div class="pla-panel-row" style="margin-bottom:2px;"><label class="pla-label">'+icon('file')+'Corporate Trade License <span class="pla-req">*</span></label>'+(lic?'<span class="pla-ready-chip">'+icon('check')+'Ready</span>':'')+'</div>'+
+      '<div id="dz-license" class="pla-dropzone '+licClass+'" ondragover="App.dragOver(event,\'dz-license\')" ondragleave="App.dragLeave(\'dz-license\')" ondrop="App.drop(event,\'dz-license\',\'license\')" onclick="document.getElementById(\'license-input\').click()">' +
+      '<input id="license-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;" onchange="App.onLicenseInput(this)">' + licInner + '</div>' + fieldError('tradeLicense') + '</div>' +
+    '<div class="pla-field"><div class="pla-panel-row" style="margin-bottom:2px;"><label class="pla-label">'+icon('paperclip')+'Other Relevant Documents <span class="pla-hint" style="text-transform:none;">(Optional but recommended)</span></label>'+(att.photos.length?'<span class="pla-ready-chip">'+att.photos.length+(att.photos.length===1?' File':' Files')+'</span>':'')+'</div>'+
+      '<div id="dz-photos" class="pla-dropzone" ondragover="App.dragOver(event,\'dz-photos\')" ondragleave="App.dragLeave(\'dz-photos\')" ondrop="App.drop(event,\'dz-photos\',\'photos\')" onclick="document.getElementById(\'photos-input\').click()">' +
+      '<input id="photos-input" type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx" multiple style="display:none;" onchange="App.onPhotosInput(this)">' +
+      '<div class="pla-dz-icon">'+icon('paperclip')+'</div><div><p style="font-size:13px;font-weight:600;margin:0;">Drag &amp; drop other relevant documents</p><p style="font-size:11px;color:var(--text-faint);margin:2px 0 0;">or click to browse multiple files</p></div><p class="pla-hint">Supports PDF, JPG, PNG, DOC, XLS (upload multiple)</p></div></div>' +
+  '</div>' +
+  (photos ? '<div style="border-top:1px solid var(--border-soft);padding-top:16px;margin-top:20px;"><h4 style="font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);margin:0 0 12px;">Uploaded Documents</h4><div class="pla-photo-grid">'+photos+'</div></div>' : '');
+}
+
+function renderOffsiteEntrySummary(o, idx){
+  var badge = '<span style="font-size:10px;background:var(--surface-2);padding:2px 9px;border-radius:99px;font-weight:650;">'+(o.coverType==='project'?'Project Specific':'Annual Cover')+'</span>';
+  if(o.coverType==='project'){
+    return '<div class="pla-rev-loc"><div class="pla-panel-row" style="margin-bottom:8px;"><span style="font-size:11px;font-weight:750;color:var(--green);text-transform:uppercase;">Off-site Entry #'+(idx+1)+'</span>'+badge+'</div>'+
+      '<div class="pla-rev-body" style="padding:0;">'+
+      '<div class="pla-kv" style="grid-column:1/-1;"><label>Title of Contract</label><div>'+esc(o.projectTitle||'Not filled')+'</div></div>'+
+      '<div class="pla-kv"><label>Total Contract Value</label><div>'+(o.projectContractValue?esc(o.projectContractValue)+' AED':'Not specified')+'</div></div>'+
+      '<div class="pla-kv"><label>Third Party Liability Limit</label><div style="color:var(--blue);">'+(o.projectLiabilityLimit?esc(o.projectLiabilityLimit)+' AED':'Not filled')+'</div></div>'+
+      '<div class="pla-kv"><label>Project Duration</label><div>'+(o.projectDuration||'Not specified')+'</div></div>'+
+      '<div class="pla-kv" style="grid-column:1/-1;"><label>Project Location</label><div>'+esc(o.projectLocation||'Not filled')+'</div></div>'+
+      '<div class="pla-kv" style="grid-column:1/-1;"><label>Exact Scope of Work</label><div style="font-weight:500;white-space:pre-line;">'+esc(o.projectScopeOfWork||'Not filled')+'</div></div>'+
+      '</div></div>';
+  }
+  return '<div class="pla-rev-loc"><div class="pla-panel-row" style="margin-bottom:8px;"><span style="font-size:11px;font-weight:750;color:var(--green);text-transform:uppercase;">Off-site Entry #'+(idx+1)+'</span>'+badge+'</div>'+
+    '<div class="pla-rev-body" style="padding:0;">'+
+    '<div class="pla-kv" style="grid-column:1/-1;"><label>Scope Area</label><div>'+esc(o.location||'Not filled')+'</div></div>'+
+    '<div class="pla-kv"><label>Off-site Location Limit</label><div style="color:var(--blue);">'+(o.limitOfIndemnity?esc(o.limitOfIndemnity)+' AED':'Not filled')+'</div></div>'+
+    '<div class="pla-kv"><label>Geographical Limit</label><div>'+esc(o.geographicalLimit)+'</div></div>'+
+    '<div class="pla-kv"><label>Annual Turnover</label><div>'+(o.annualTurnover?esc(o.annualTurnover)+' AED':'Not specified')+'</div></div>'+
+    (o.geographicalLimit!=='UAE' && o.turnoverSplitDetails ? '<div class="pla-kv" style="grid-column:1/-1;"><label>Turnover Country Split</label><div style="font-weight:500;">'+esc(o.turnoverSplitDetails)+'</div></div>' : '') +
+    '<div class="pla-kv"><label>Manual Labor Allowed</label><div>'+(o.manualWorkEmployees||'no')+'</div></div>'+
+    '<div class="pla-kv"><label>Subcontracted Operations</label><div>'+(o.subcontractedWork||'no')+'</div></div>'+
+    '</div></div>';
+}
+
+function renderProposalDoc(p){
+  if(state.showSuccessState){
+    return '<div class="pla-success">'+
+      '<div class="pla-success-check">'+icon('check')+'</div>'+
+      '<h3>Application Proposal Lodged Successfully</h3>'+
+      '<p>Your commercial lines liability proposal has been generated under reference code <strong>'+esc(p.id)+'</strong>. A copy is saved in your history.</p>'+
+      '<div class="row no-print"><button class="btn btn-primary" onclick="App.printPage()">'+icon('printer')+'Print Application</button><button class="btn btn-outline" onclick="App.closeProposalView()">Back to Form</button></div>'+
+    '</div>';
+  }
+  var locBlocks = p.locations.map(function(loc, idx){
+    var claims = loc.claimsHistoryLast5Years==='yes' && loc.claimsDetails ?
+      '<div style="grid-column:1/-1;background:var(--danger-bg);padding:10px;border-radius:9px;border:1px solid var(--danger-border);margin-top:4px;"><span style="font-size:10px;font-weight:750;text-transform:uppercase;color:var(--danger);display:block;">Claims Breakdown</span><p style="font-size:12px;margin:4px 0 0;white-space:pre-line;">'+esc(loc.claimsDetails)+'</p></div>' : '';
+    return '<div class="pla-rev-loc"><div class="pla-panel-row" style="margin-bottom:8px;"><span style="font-size:11px;font-weight:750;color:var(--green);text-transform:uppercase;">Location #'+(idx+1)+'</span><span style="font-size:11px;background:var(--surface-2);padding:2px 9px;border-radius:99px;font-weight:650;">'+esc(loc.occupancy)+'</span></div>'+
+      '<div class="pla-rev-body" style="padding:0;">'+
+      '<div class="pla-kv" style="grid-column:1/-1;"><label>Address</label><div>'+esc(loc.address)+'</div></div>'+
+      '<div class="pla-kv"><label>Indemnity Limit</label><div style="color:var(--blue);">'+esc(loc.limitOfIndemnity)+' AED</div></div>'+
+      '<div class="pla-kv"><label>Claims (5 Yrs)</label><div>'+(loc.claimsHistoryLast5Years==='yes'?'Yes':'No')+'</div></div>'+
+      claims + '</div></div>';
+  }).join('');
+
+  var offBlock = p.offsiteOperations.coverRequired==='no' ?
+    '<div style="padding:16px;font-size:13px;color:var(--text-muted);font-style:italic;">No offsite operations cover requested.</div>' :
+    p.offsiteOperations.entries.map(function(o, idx){ return renderOffsiteEntrySummary(o, idx); }).join('');
+
+  return '' +
+  '<div class="pla-doc-head">' +
+    '<div><span class="eyebrow">Insurance Proposal Form</span><h2 class="display">Public Liability Cover Definition</h2><span class="ref">Proposal Reference: <strong>'+esc(p.id)+'</strong> &bull; Lodged At: '+esc(p.submittedAt)+'</span></div>' +
+    '<div class="pla-doc-actions no-print"><button class="btn btn-outline" onclick="App.printPage()">'+icon('printer')+'Print / PDF</button><button class="btn btn-outline" onclick="App.closeProposalView()">'+icon('undo')+'Exit View</button></div>' +
+  '</div>' +
+  '<div style="margin-top:20px;">' +
+    '<div class="pla-rev-card"><div class="pla-rev-head">'+icon('building')+'Proposer Corporate Info</div><div class="pla-rev-body">'+
+      '<div class="pla-kv"><label>Company Name</label><div>'+esc(p.companyInfo.companyName)+'</div></div>'+
+      '<div class="pla-kv"><label>Trade License</label><div>'+esc(p.companyInfo.tradeLicenseNumber)+'</div></div>'+
+      '<div class="pla-kv"><label>Business Activity</label><div>'+esc(p.companyInfo.businessActivity)+'</div></div>'+
+      '<div class="pla-kv"><label>Contact Person</label><div>'+esc(p.companyInfo.contactPerson)+'</div></div>'+
+      '<div class="pla-kv"><label>Email</label><div>'+esc(p.companyInfo.contactEmail)+'</div></div>'+
+      '<div class="pla-kv"><label>Phone</label><div>'+esc(p.companyInfo.contactPhone)+'</div></div>'+
+      '<div class="pla-kv" style="grid-column:1/-1;border-top:1px solid var(--border-soft);padding-top:10px;"><label>Business Classification</label><div style="font-weight:500;white-space:pre-line;">'+esc(p.companyInfo.businessDescription)+'</div></div>'+
+    '</div></div>' +
+    '<div class="pla-rev-card"><div class="pla-rev-head">'+icon('mapPin')+'Risk Locations Definition ('+p.locations.length+')</div>'+locBlocks+'</div>' +
+    '<div class="pla-rev-card"><div class="pla-rev-head">'+icon('briefcase')+'Off-site Operations Cover</div>'+offBlock+'</div>' +
+    '<div class="pla-rev-card"><div class="pla-rev-head">'+icon('paperclip')+'Uploaded Supporting Documentation</div><div class="pla-rev-body two">'+
+      '<div class="pla-kv"><label>Trade License Attachment</label><div>'+(p.attachments.tradeLicense?esc(p.attachments.tradeLicense.name):'Not attached')+'</div></div>'+
+      '<div class="pla-kv"><label>Other Relevant Documents</label><div>'+(p.attachments.photos.length? p.attachments.photos.length+' uploaded' : 'None')+'</div></div>'+
+    '</div></div>' +
+  '</div>' +
+  '<div class="pla-sign-preview" style="margin-top:8px;"><span class="cap">Authorized Electronic Declaration Record</span><div class="name">'+esc(p.signatureName||p.companyInfo.contactPerson)+'</div><p style="font-size:11px;color:var(--text-muted);max-width:60ch;margin:6px auto 0;">Approved online on behalf of '+esc(p.companyInfo.companyName)+'. Checked, signed and timestamped as a correct public liability policy application statement.</p></div>';
+}
+
+var SECTION_ICONS = {1:'shield',2:'mapPin',3:'briefcase',4:'paperclip'};
+var SECTION_CONTENT = {1:renderStepCompany,2:renderStepLocations,3:renderStepOffsite,4:renderStepUpload};
+
+function renderMain(){
+  var main = document.getElementById('pla-main');
+  if(state.viewingProposal){
+    main.innerHTML = state.showSuccessState
+      ? renderProposalDoc(state.viewingProposal)
+      : '<div class="pla-card" style="padding:26px;">'+renderProposalDoc(state.viewingProposal)+'</div>';
+    return;
+  }
+
+  var overview = '<div class="pla-overview no-print"><div style="display:flex;align-items:center;gap:8px;"><span class="pla-step-pill">Step '+state.currentStep+' of '+STEPS.length+'</span><span style="color:var(--text-faint);">&bull;</span><span class="pla-step-label">'+STEPS[state.currentStep-1].title+'</span></div>'+
+    '<div class="pla-progress-track"><div class="pla-progress-fill" style="width:'+((state.currentStep/STEPS.length)*100)+'%;"></div></div></div>';
+
+  var cards = STEPS.map(function(s){
+    var isActive = s.id===state.currentStep;
+    var isDone = s.id<state.currentStep;
+    var isLocked = s.id>state.currentStep;
+    var badgeCls = isDone?'done':(isActive?'active':'locked');
+    var badgeContent = isDone?icon('check'):s.id;
+    var header = '<div class="pla-sec-header'+(isDone?' clickable':'')+'"'+(isDone?(' onclick="App.goToStep('+s.id+')"'):'')+'>'+
+      '<div class="pla-sec-left"><div class="pla-sec-badge '+badgeCls+'">'+badgeContent+'</div>'+
+      '<div><span class="pla-sec-eyebrow">Section '+s.id+' of '+STEPS.length+'</span><div class="pla-sec-title">'+s.title+'</div><div class="pla-sec-desc">'+s.desc+'</div></div></div>'+
+      '<div class="pla-sec-icon">'+icon(SECTION_ICONS[s.id])+'</div>'+
+    '</div>';
+
+    var body = '';
+    if(isActive){
+      var content = SECTION_CONTENT[s.id]();
+      var nav = isActive ? (
+        '<div class="pla-sec-nav">' +
+          '<div>'+(s.id>1 ? '<button type="button" class="btn btn-outline" onclick="App.prevStep()">'+icon('chevronLeft')+'Back</button>' : '')+'</div>' +
+          '<div style="display:flex;gap:8px;align-items:center;">' +
+          '<button type="button" class="btn btn-text" onclick="App.saveDraft()">'+icon('save')+'Save Draft</button>' +
+          (s.id<STEPS.length ? '<button type="button" class="btn btn-primary" onclick="App.nextStep()">Continue '+icon('chevronRight')+'</button>' : '<button type="button" class="btn btn-submit" onclick="App.submitProposal()">'+icon('check')+'Submit Proposal</button>') +
+          '</div></div>'
+      ) : '';
+      body = '<div class="pla-sec-body">'+content+nav+'</div>';
+    }
+
+    return '<div class="pla-section-card'+(isActive?' active':'')+(isLocked?' locked':'')+'">'+header+body+'</div>';
+  }).join('');
+
+  main.innerHTML = overview + cards;
+}
+
+// initial paint
+document.querySelector('.pla-logo-badge').innerHTML = icon('shield');
+renderMain();
+renderToast();
+window.App = App;
+})();
+</script>
+</body>
+</html>
